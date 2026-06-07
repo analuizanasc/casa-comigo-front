@@ -10,7 +10,7 @@ import { Input, Select, Textarea } from '../../components/UI/Input';
 import { Modal } from '../../components/UI/Modal';
 import { Badge, statusLabel, statusVariant, effortLabel, effortVariant } from '../../components/UI/Badge';
 import { PageSpinner } from '../../components/UI/Spinner';
-import type { Assignment, Member, DistributionResult } from '../../types';
+import type { Assignment, Member, DistributionResult, ReassignConfirmation } from '../../types';
 
 function formatDate(dateStr: string) {
   const d = new Date(dateStr + 'T00:00:00');
@@ -44,6 +44,8 @@ export function Schedule() {
   const [reassignOpen, setReassignOpen] = useState(false);
   const [reassignTarget, setReassignTarget] = useState<Assignment | null>(null);
   const [reassignTo, setReassignTo] = useState('');
+
+  const [groupConfirm, setGroupConfirm] = useState<ReassignConfirmation | null>(null);
 
   const [distributeOpen, setDistributeOpen] = useState(false);
   const [distStart, setDistStart] = useState(today);
@@ -108,9 +110,43 @@ export function Schedule() {
     if (!houseId || !reassignTarget || !reassignTo) return;
     setSaving(true);
     try {
-      await reassignTask(houseId, reassignTarget.id, reassignTo);
-      toast('Tarefa reatribuída!', 'success');
+      const { data } = await reassignTask(houseId, reassignTarget.id, { assigned_to: reassignTo });
+      if ('requires_confirmation' in data && data.requires_confirmation) {
+        setGroupConfirm(data as ReassignConfirmation);
+        setReassignOpen(false);
+        return;
+      }
+      const result = data as Assignment & { warning?: string };
+      if (result.warning) {
+        toast(result.warning, 'warning');
+      } else {
+        toast('Tarefa reatribuída!', 'success');
+      }
       setReassignOpen(false);
+      fetchData();
+    } catch (err: any) {
+      toast(err.message, 'error');
+    } finally {
+      setSaving(false);
+    }
+  };
+
+  const handleGroupConfirm = async (moveGroup: boolean) => {
+    if (!houseId || !reassignTarget || !reassignTo) return;
+    setSaving(true);
+    try {
+      const { data } = await reassignTask(houseId, reassignTarget.id, {
+        assigned_to: reassignTo,
+        force: true,
+        move_group: moveGroup,
+      });
+      const result = data as Assignment & { warning?: string };
+      if (result.warning) {
+        toast(result.warning, 'warning');
+      } else {
+        toast('Tarefa reatribuída!', 'success');
+      }
+      setGroupConfirm(null);
       fetchData();
     } catch (err: any) {
       toast(err.message, 'error');
@@ -223,23 +259,21 @@ export function Schedule() {
                     )}
                     {a.status === 'pending' && (
                       <div className="assignment-card__actions">
+                        <Button
+                          variant="secondary"
+                          size="sm"
+                          onClick={() => { setCompleteTarget(a); setCompleteNotes(''); setCompleteOpen(true); }}
+                        >
+                          ✓ Concluir
+                        </Button>
                         {a.assigned_to === user?.id && (
-                          <>
-                            <Button
-                              variant="secondary"
-                              size="sm"
-                              onClick={() => { setCompleteTarget(a); setCompleteNotes(''); setCompleteOpen(true); }}
-                            >
-                              ✓ Concluir
-                            </Button>
-                            <Button
-                              variant="ghost"
-                              size="sm"
-                              onClick={() => handleImpediment(a)}
-                            >
-                              ⚠ Impedimento
-                            </Button>
-                          </>
+                          <Button
+                            variant="ghost"
+                            size="sm"
+                            onClick={() => handleImpediment(a)}
+                          >
+                            ⚠ Impedimento
+                          </Button>
                         )}
                         {isAdmin && (
                           <Button
@@ -306,12 +340,45 @@ export function Schedule() {
             onChange={(e) => setReassignTo(e.target.value)}
             options={[
               { value: '', label: 'Selecione...' },
-              ...members
-                .filter((m) => m.role !== 'admin' || true)
-                .map((m) => ({ value: m.user_id, label: m.name })),
+              ...members.map((m) => ({ value: m.user_id, label: m.name })),
             ]}
           />
         </form>
+      </Modal>
+
+      <Modal
+        title="Tarefa em grupo"
+        open={!!groupConfirm}
+        onClose={() => setGroupConfirm(null)}
+        footer={
+          <>
+            <Button variant="ghost" onClick={() => setGroupConfirm(null)}>Cancelar</Button>
+          </>
+        }
+      >
+        {groupConfirm && (
+          <div className="group-confirm">
+            <div className="group-confirm__warning">{groupConfirm.warning}</div>
+            <p className="group-confirm__count">
+              Este grupo contém <strong>{groupConfirm.group_task_count}</strong> tarefas.
+            </p>
+            <div className="group-confirm__actions">
+              <Button
+                variant="secondary"
+                onClick={() => handleGroupConfirm(false)}
+                loading={saving}
+              >
+                {groupConfirm.options.move_single}
+              </Button>
+              <Button
+                onClick={() => handleGroupConfirm(true)}
+                loading={saving}
+              >
+                {groupConfirm.options.move_group}
+              </Button>
+            </div>
+          </div>
+        )}
       </Modal>
 
       <Modal

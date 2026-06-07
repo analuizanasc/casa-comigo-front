@@ -36,7 +36,7 @@ describe('schedule API', () => {
 
   it('reassignTask sends PUT /houses/:hid/schedule/:aid/reassign', async () => {
     mock.onPut(`/houses/${HID}/schedule/${AID}/reassign`).reply(200, { id: AID });
-    await reassignTask(HID, AID, 'user-2');
+    await reassignTask(HID, AID, { assigned_to: 'user-2' });
     expect(JSON.parse(mock.history.put[0].data)).toEqual({ assigned_to: 'user-2' });
   });
 

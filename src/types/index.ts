@@ -5,6 +5,74 @@ export interface User {
   created_at: string;
 }
 
+export type FrequencyUnit = 'week' | 'month' | 'year';
+
+export type NotificationType =
+  | 'house_invitation'
+  | 'task_redistributed'
+  | 'task_removed'
+  | 'task_completed_by_other'
+  | 'overload_warning'
+  | 'role_changed';
+
+export interface AppNotification {
+  id: string;
+  type: NotificationType;
+  title: string;
+  body: string;
+  data: Record<string, string>;
+  is_read: boolean;
+  created_at: string;
+}
+
+export interface Invitation {
+  id: string;
+  house_id: string;
+  house_name: string;
+  invited_by_name: string;
+  status: 'pending';
+  created_at: string;
+}
+
+export interface InviteResponse {
+  invitation_id: string;
+  invited_user: { id: string; name: string; email: string };
+  house_id: string;
+  status: 'pending';
+  message: string;
+}
+
+export interface OnboardingStatus {
+  current_step: number;
+  total_steps: number;
+  completed: boolean;
+}
+
+export interface MyPerformanceReport {
+  period: { from: string; to: string };
+  user_id: string;
+  name: string;
+  role: string;
+  weight_percentage: number | null;
+  total_assigned: number;
+  completed: number;
+  overdue: number;
+  redistributed: number;
+  pending: number;
+  completion_rate: number;
+}
+
+export interface ReassignConfirmation {
+  requires_confirmation: true;
+  warning: string;
+  group_id: string;
+  group_task_count: number;
+  options: {
+    move_single: string;
+    move_group: string;
+  };
+}
+
 export interface AuthResponse {
   token: string;
   user: User;
@@ -62,6 +130,8 @@ export interface Task {
   name: string;
   description: string | null;
   frequency: Frequency;
+  frequency_count: number | null;
+  frequency_unit: FrequencyUnit | null;
   duration_minutes: number;
   effort_level: EffortLevel;
   room: string | null;
@@ -110,6 +180,7 @@ export interface Assignment {
   scheduled_date: string;
   status: AssignmentStatus;
   completed_at: string | null;
+  completed_by: string | null;
   completion_notes: string | null;
   group_id: string | null;
   sequence_order: number;

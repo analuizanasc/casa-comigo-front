@@ -1461,3 +1461,291 @@ img { display: block; }
 
   .sidebar__footer { flex-direction: row; align-items: center; }
 }
+
+/* ── Onboarding ────────────────────────────────────────── */
+.onboarding-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(44, 31, 26, 0.55);
+  backdrop-filter: blur(4px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: var(--sp-6);
+  z-index: 1500;
+  animation: fadeIn 0.2s var(--ease);
+}
+
+.onboarding-modal {
+  background: var(--surface-raised);
+  border: 1px solid var(--border);
+  border-radius: var(--r-xl);
+  box-shadow: var(--shadow-lg);
+  width: 100%;
+  max-width: 440px;
+  padding: var(--sp-10) var(--sp-8);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--sp-6);
+  animation: slideUp 0.25s var(--ease);
+}
+
+.onboarding-step { text-align: center; display: flex; flex-direction: column; gap: var(--sp-3); }
+
+.onboarding-step__icon { font-size: 48px; }
+
+.onboarding-step__title {
+  font-size: 20px;
+  font-weight: 800;
+  color: var(--ink);
+  letter-spacing: -0.02em;
+}
+
+.onboarding-step__body {
+  font-size: 14px;
+  color: var(--ink-3);
+  line-height: 1.7;
+}
+
+.onboarding-step__dots {
+  display: flex;
+  gap: var(--sp-2);
+}
+
+.onboarding-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--border-mid);
+  transition: background 0.2s, transform 0.2s;
+}
+
+.onboarding-dot--active {
+  background: var(--terracotta);
+  transform: scale(1.3);
+}
+
+.onboarding-dot--done { background: var(--terracotta-light); }
+
+/* ── Invitations Panel ─────────────────────────────────── */
+.invitations-panel {
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-3);
+}
+
+.invitations-panel__title {
+  font-size: 15px;
+  font-weight: 700;
+  color: var(--ink);
+  padding-bottom: var(--sp-2);
+  border-bottom: 1px solid var(--border);
+}
+
+.invitations-list {
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-3);
+}
+
+.invitation-card {
+  background: var(--info-light);
+  border: 1px solid var(--info);
+  border-radius: var(--r-lg);
+  padding: var(--sp-4) var(--sp-5);
+  display: flex;
+  align-items: center;
+  gap: var(--sp-4);
+}
+
+.invitation-card__icon {
+  font-size: 20px;
+  width: 40px;
+  height: 40px;
+  background: var(--surface-raised);
+  border-radius: var(--r-md);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  color: var(--info);
+}
+
+.invitation-card__info { flex: 1; min-width: 0; }
+
+.invitation-card__house {
+  font-size: 15px;
+  font-weight: 700;
+  color: var(--ink);
+}
+
+.invitation-card__from {
+  font-size: 13px;
+  color: var(--ink-3);
+  margin-top: 2px;
+}
+
+.invitation-card__actions {
+  display: flex;
+  gap: var(--sp-2);
+  flex-shrink: 0;
+}
+
+/* ── Notifications Panel ───────────────────────────────── */
+.notifications-panel {
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-3);
+}
+
+.notifications-panel__header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding-bottom: var(--sp-2);
+  border-bottom: 1px solid var(--border);
+}
+
+.notifications-panel__title {
+  font-size: 15px;
+  font-weight: 700;
+  color: var(--ink);
+  display: flex;
+  align-items: center;
+  gap: var(--sp-2);
+}
+
+.notif-badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 20px;
+  height: 20px;
+  padding: 0 var(--sp-1);
+  border-radius: 100px;
+  background: var(--terracotta);
+  color: #fff;
+  font-size: 11px;
+  font-weight: 700;
+}
+
+.notifications-list {
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-2);
+}
+
+.notif-card {
+  background: var(--surface-raised);
+  border: 1px solid var(--border);
+  border-radius: var(--r-lg);
+  padding: var(--sp-4) var(--sp-5);
+  display: flex;
+  align-items: flex-start;
+  gap: var(--sp-3);
+  transition: border-color 0.15s;
+}
+
+.notif-card--unread {
+  border-color: var(--border-mid);
+  background: var(--canvas);
+}
+
+.notif-card__content { flex: 1; min-width: 0; }
+
+.notif-card__title {
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--ink);
+}
+
+.notif-card__body {
+  font-size: 13px;
+  color: var(--ink-3);
+  margin-top: 2px;
+  line-height: 1.5;
+}
+
+.notif-card__time {
+  font-size: 11px;
+  color: var(--ink-muted);
+  margin-top: var(--sp-1);
+}
+
+.notif-card__dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--terracotta);
+  flex-shrink: 0;
+  margin-top: 6px;
+}
+
+/* ── Catalog — description counter & frequency toggle ──── */
+.field__char-count {
+  font-size: 11px;
+  color: var(--ink-muted);
+  text-align: right;
+  margin-top: 2px;
+}
+
+.field__char-count--over { color: var(--danger); font-weight: 600; }
+
+.freq-mode-toggle {
+  display: flex;
+  background: var(--canvas);
+  border: 1px solid var(--border-mid);
+  border-radius: var(--r-md);
+  overflow: hidden;
+}
+
+.freq-mode-toggle__btn {
+  flex: 1;
+  font-size: 13px;
+  font-weight: 500;
+  padding: var(--sp-2) var(--sp-3);
+  color: var(--ink-3);
+  transition: background 0.15s, color 0.15s;
+  text-align: center;
+}
+
+.freq-mode-toggle__btn--active {
+  background: var(--surface-raised);
+  color: var(--terracotta);
+  font-weight: 700;
+  box-shadow: var(--shadow-sm);
+}
+
+/* ── Schedule — group confirmation dialog ──────────────── */
+.group-confirm {
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-4);
+}
+
+.group-confirm__warning {
+  background: var(--warning-light);
+  border: 1px solid var(--warning);
+  border-radius: var(--r-md);
+  padding: var(--sp-3) var(--sp-4);
+  font-size: 14px;
+  color: var(--warning);
+  line-height: 1.5;
+}
+
+.group-confirm__count {
+  font-size: 14px;
+  color: var(--ink-2);
+}
+
+.group-confirm__count strong {
+  font-size: 16px;
+  color: var(--ink);
+}
+
+.group-confirm__actions {
+  display: flex;
+  gap: var(--sp-3);
+  flex-wrap: wrap;
+}

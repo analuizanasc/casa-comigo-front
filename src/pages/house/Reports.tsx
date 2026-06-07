@@ -1,11 +1,12 @@
 import { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
-import { getPerformanceReport, getBalanceReport } from '../../api/reports';
+import { getPerformanceReport, getBalanceReport, getMyPerformance } from '../../api/reports';
+import { useHouse } from '../../contexts/HouseContext';
 import { useToast } from '../../components/UI/Toast';
 import { Input } from '../../components/UI/Input';
 import { Badge } from '../../components/UI/Badge';
 import { PageSpinner } from '../../components/UI/Spinner';
-import type { PerformanceReport, BalanceReport } from '../../types';
+import type { PerformanceReport, BalanceReport, MyPerformanceReport } from '../../types';
 
 function CompletionRing({ rate }: { rate: number }) {
   const r = 20;
@@ -35,15 +36,52 @@ function CompletionRing({ rate }: { rate: number }) {
   );
 }
 
+function PerfStats({ m }: { m: { completed: number; pending: number; overdue: number; redistributed: number; total_assigned: number; completion_rate: number; name: string } }) {
+  return (
+    <div className="perf-card">
+      <div className="perf-card__top">
+        <div className="perf-card__avatar">{m.name.charAt(0)}</div>
+        <div className="perf-card__info">
+          <div className="perf-card__name">{m.name}</div>
+          <div className="perf-card__total">{m.total_assigned} tarefas atribuídas</div>
+        </div>
+        <CompletionRing rate={m.completion_rate} />
+      </div>
+      <div className="perf-card__stats">
+        <div className="perf-stat">
+          <span className="perf-stat__value perf-stat__value--success">{m.completed}</span>
+          <span className="perf-stat__label">Concluídas</span>
+        </div>
+        <div className="perf-stat">
+          <span className="perf-stat__value perf-stat__value--warn">{m.pending}</span>
+          <span className="perf-stat__label">Pendentes</span>
+        </div>
+        <div className="perf-stat">
+          <span className="perf-stat__value perf-stat__value--danger">{m.overdue}</span>
+          <span className="perf-stat__label">Atrasadas</span>
+        </div>
+        <div className="perf-stat">
+          <span className="perf-stat__value">{m.redistributed}</span>
+          <span className="perf-stat__label">Redistribuídas</span>
+        </div>
+      </div>
+    </div>
+  );
+}
+
 export function Reports() {
   const { houseId } = useParams<{ houseId: string }>();
+  const { currentHouse } = useHouse();
   const toast = useToast();
+
+  const isAdmin = currentHouse?.role === 'admin';
 
   const today = new Date().toISOString().split('T')[0];
   const thirtyAgo = new Date(Date.now() - 30 * 86400000).toISOString().split('T')[0];
 
   const [performance, setPerformance] = useState<PerformanceReport | null>(null);
   const [balance, setBalance] = useState<BalanceReport | null>(null);
+  const [myPerf, setMyPerf] = useState<MyPerformanceReport | null>(null);
   const [loading, setLoading] = useState(true);
   const [dateFrom, setDateFrom] = useState(thirtyAgo);
   const [dateTo, setDateTo] = useState(today);
@@ -52,12 +90,17 @@ export function Reports() {
     if (!houseId) return;
     setLoading(true);
     try {
-      const [perfRes, balRes] = await Promise.all([
-        getPerformanceReport(houseId, { date_from: dateFrom, date_to: dateTo }),
-        getBalanceReport(houseId),
-      ]);
-      setPerformance(perfRes.data);
-      setBalance(balRes.data);
+      if (isAdmin) {
+        const [perfRes, balRes] = await Promise.all([
+          getPerformanceReport(houseId, { date_from: dateFrom, date_to: dateTo }),
+          getBalanceReport(houseId),
+        ]);
+        setPerformance(perfRes.data);
+        setBalance(balRes.data);
+      } else {
+        const { data } = await getMyPerformance(houseId, { date_from: dateFrom, date_to: dateTo });
+        setMyPerf(data);
+      }
     } catch (err: any) {
       toast(err.message, 'error');
     } finally {
@@ -65,7 +108,7 @@ export function Reports() {
     }
   };
 
-  useEffect(() => { fetchData(); }, [houseId, dateFrom, dateTo]);
+  useEffect(() => { fetchData(); }, [houseId, dateFrom, dateTo, isAdmin]);
 
   if (loading) return <PageSpinner />;
 
@@ -74,7 +117,9 @@ export function Reports() {
       <div className="page__header">
         <div>
           <h1 className="page__title">Relatórios</h1>
-          <p className="page__subtitle">Desempenho e balanceamento da casa</p>
+          <p className="page__subtitle">
+            {isAdmin ? 'Desempenho e balanceamento da casa' : 'Meu desempenho'}
+          </p>
         </div>
       </div>
 
@@ -95,7 +140,7 @@ export function Reports() {
         />
       </div>
 
-      {balance && (
+      {isAdmin && balance && (
         <section className="report-section">
           <h2 className="report-section__title">Balanceamento de Esforço</h2>
           <div className={`balance-status ${balance.within_tolerance ? 'balance-status--ok' : 'balance-status--warn'}`}>
@@ -140,40 +185,22 @@ export function Reports() {
         </section>
       )}
 
-      {performance && (
+      {isAdmin && performance && (
         <section className="report-section">
           <h2 className="report-section__title">Desempenho por Morador</h2>
           <div className="perf-grid">
             {performance.members.map((m) => (
-              <div key={m.user_id} className="perf-card">
-                <div className="perf-card__top">
-                  <div className="perf-card__avatar">{m.name.charAt(0)}</div>
-                  <div className="perf-card__info">
-                    <div className="perf-card__name">{m.name}</div>
-                    <div className="perf-card__total">{m.total_assigned} tarefas atribuídas</div>
-                  </div>
-                  <CompletionRing rate={m.completion_rate} />
-                </div>
-                <div className="perf-card__stats">
-                  <div className="perf-stat">
-                    <span className="perf-stat__value perf-stat__value--success">{m.completed}</span>
-                    <span className="perf-stat__label">Concluídas</span>
-                  </div>
-                  <div className="perf-stat">
-                    <span className="perf-stat__value perf-stat__value--warn">{m.pending}</span>
-                    <span className="perf-stat__label">Pendentes</span>
-                  </div>
-                  <div className="perf-stat">
-                    <span className="perf-stat__value perf-stat__value--danger">{m.overdue}</span>
-                    <span className="perf-stat__label">Atrasadas</span>
-                  </div>
-                  <div className="perf-stat">
-                    <span className="perf-stat__value">{m.redistributed}</span>
-                    <span className="perf-stat__label">Redistribuídas</span>
-                  </div>
-                </div>
-              </div>
+              <PerfStats key={m.user_id} m={m} />
             ))}
+          </div>
+        </section>
+      )}
+
+      {!isAdmin && myPerf && (
+        <section className="report-section">
+          <h2 className="report-section__title">Meu Desempenho</h2>
+          <div className="perf-grid">
+            <PerfStats m={myPerf} />
           </div>
         </section>
       )}

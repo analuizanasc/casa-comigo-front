@@ -1,5 +1,5 @@
 import { apiClient } from './client';
-import type { Assignment, DistributionResult } from '../types';
+import type { Assignment, DistributionResult, ReassignConfirmation } from '../types';
 
 export const distribute = (
   houseId: string,
@@ -14,8 +14,15 @@ export const getSchedule = (
 export const getAssignment = (houseId: string, assignmentId: string) =>
   apiClient.get<Assignment>(`/houses/${houseId}/schedule/${assignmentId}`);
 
-export const reassignTask = (houseId: string, assignmentId: string, assigned_to: string) =>
-  apiClient.put<Assignment>(`/houses/${houseId}/schedule/${assignmentId}/reassign`, { assigned_to });
+export const reassignTask = (
+  houseId: string,
+  assignmentId: string,
+  data: { assigned_to: string; force?: boolean; move_group?: boolean }
+) =>
+  apiClient.put<(Assignment & { warning?: string }) | ReassignConfirmation>(
+    `/houses/${houseId}/schedule/${assignmentId}/reassign`,
+    data
+  );
 
 export const completeTask = (houseId: string, assignmentId: string, completion_notes?: string) =>
   apiClient.patch<Assignment>(`/houses/${houseId}/schedule/${assignmentId}/complete`, {

@@ -62,10 +62,9 @@ export function Members() {
     setSaving(true);
     try {
       await inviteMember(houseId, inviteEmail);
-      toast('Membro convidado!', 'success');
+      toast('Convite enviado! O usuário verá a notificação na tela inicial.', 'success');
       setInviteOpen(false);
       setInviteEmail('');
-      fetchData();
     } catch (err: any) {
       toast(err.message, 'error');
     } finally {

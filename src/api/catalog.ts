@@ -1,5 +1,5 @@
 import { apiClient } from './client';
-import type { Task, TaskDetail, EffortLevel, Frequency } from '../types';
+import type { Task, TaskDetail, EffortLevel, Frequency, FrequencyUnit } from '../types';
 
 export const listTasks = (houseId: string) =>
   apiClient.get<Task[]>(`/houses/${houseId}/catalog`);
@@ -7,7 +7,9 @@ export const listTasks = (houseId: string) =>
 export const createTask = (houseId: string, data: {
   name: string;
   description?: string;
-  frequency: Frequency;
+  frequency?: Frequency;
+  frequency_count?: number;
+  frequency_unit?: FrequencyUnit;
   duration_minutes?: number;
   effort_level: EffortLevel;
   room?: string;
@@ -19,7 +21,9 @@ export const getTask = (houseId: string, taskId: string) =>
 export const updateTask = (houseId: string, taskId: string, data: {
   name: string;
   description?: string;
-  frequency: Frequency;
+  frequency?: Frequency;
+  frequency_count?: number;
+  frequency_unit?: FrequencyUnit;
   duration_minutes?: number;
   effort_level: EffortLevel;
   room?: string;
