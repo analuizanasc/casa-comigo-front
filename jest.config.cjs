@@ -26,10 +26,21 @@ module.exports = {
   },
   collectCoverageFrom: [
     'src/**/*.{ts,tsx}',
+    '!src/api/**',
     '!src/main.tsx',
+    '!src/App.tsx',
     '!src/vite-env.d.ts',
     '!src/types/index.ts',
   ],
+  coverageThresholds: {
+    global: {
+      statements: 95,
+      branches: 88,
+      functions: 99,
+      lines: 97,
+    },
+  },
+  coverageReporters: ['text', 'lcov'],
   clearMocks: true,
   restoreMocks: true,
 };

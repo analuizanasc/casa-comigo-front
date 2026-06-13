@@ -36,7 +36,7 @@ function setup(currentHouse: HouseSummary | null = null) {
 }
 
 describe('Sidebar', () => {
-  it('renders brand name', () => {
+  it('renders brand name Casa Comigo', () => {
     setup();
     expect(screen.getByText('Casa Comigo')).toBeInTheDocument();
   });
@@ -51,12 +51,12 @@ describe('Sidebar', () => {
     expect(screen.getByText('Alice')).toBeInTheDocument();
   });
 
-  it('does not show nav when no current house', () => {
+  it('does not show nav links when no current house is set', () => {
     setup(null);
     expect(screen.queryByText('Cronograma')).not.toBeInTheDocument();
   });
 
-  it('does not show "Trocar de casa" when no current house', () => {
+  it('does not show Trocar de casa button when no current house', () => {
     setup(null);
     expect(screen.queryByText(/Trocar de casa/)).not.toBeInTheDocument();
   });
@@ -67,7 +67,7 @@ describe('Sidebar', () => {
     expect(screen.getByText('Cronograma')).toBeInTheDocument();
   });
 
-  it('shows all nav items for admin role', () => {
+  it('shows all 5 nav items for admin role', () => {
     setup(adminHouse);
     expect(screen.getByText('Cronograma')).toBeInTheDocument();
     expect(screen.getByText('Catálogo')).toBeInTheDocument();
@@ -76,7 +76,7 @@ describe('Sidebar', () => {
     expect(screen.getByText('Relatórios')).toBeInTheDocument();
   });
 
-  it('shows schedule, catalog and preferences for catalog_manager', () => {
+  it('shows Cronograma, Catálogo and Preferências for catalog_manager (no Membros, no Relatórios)', () => {
     setup(catalogHouse);
     expect(screen.getByText('Cronograma')).toBeInTheDocument();
     expect(screen.getByText('Catálogo')).toBeInTheDocument();
@@ -85,7 +85,7 @@ describe('Sidebar', () => {
     expect(screen.queryByText('Relatórios')).not.toBeInTheDocument();
   });
 
-  it('shows only schedule and preferences for resident', () => {
+  it('shows only Cronograma and Preferências for resident (no Catálogo, Membros, Relatórios)', () => {
     setup(residentHouse);
     expect(screen.getByText('Cronograma')).toBeInTheDocument();
     expect(screen.getByText('Preferências')).toBeInTheDocument();
@@ -101,14 +101,14 @@ describe('Sidebar', () => {
     expect(mockNavigate).toHaveBeenCalledWith('/login');
   });
 
-  it('calls setCurrentHouse(null) and navigates to /houses when "Trocar de casa" is clicked', () => {
+  it('calls setCurrentHouse(null) and navigates to /houses when Trocar de casa is clicked', () => {
     setup(adminHouse);
     fireEvent.click(screen.getByText(/Trocar de casa/));
     expect(mockSetCurrentHouse).toHaveBeenCalledWith(null);
     expect(mockNavigate).toHaveBeenCalledWith('/houses');
   });
 
-  it('adds sidebar__link--active class to the nav link matching the current route', () => {
+  it('adds ativo class to the nav link matching the current route', () => {
     mockUseAuth.mockReturnValue({
       user: { id: 'u1', name: 'Alice', email: 'a@a.com', created_at: '' },
       token: 'tok',
@@ -118,7 +118,7 @@ describe('Sidebar', () => {
     });
     mockUseHouse.mockReturnValue({ currentHouse: adminHouse, setCurrentHouse: mockSetCurrentHouse });
     render(<MemoryRouter initialEntries={['/houses/h1/schedule']}><Sidebar /></MemoryRouter>);
-    expect(screen.getByText('Cronograma').closest('a')).toHaveClass('sidebar__link--active');
+    expect(screen.getByText('Cronograma').closest('a')).toHaveClass('ativo');
   });
 
   it('renders empty avatar when user is null', () => {
@@ -131,7 +131,7 @@ describe('Sidebar', () => {
     });
     mockUseHouse.mockReturnValue({ currentHouse: null, setCurrentHouse: mockSetCurrentHouse });
     render(<MemoryRouter><Sidebar /></MemoryRouter>);
-    const avatar = document.querySelector('.sidebar__user-avatar');
+    const avatar = document.querySelector('.avatar');
     expect(avatar).toBeInTheDocument();
     expect(avatar?.textContent).toBe('');
   });
