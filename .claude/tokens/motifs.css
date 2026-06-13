@@ -1,0 +1,68 @@
+/* ============================================================
+   CASA COMIGO · MOTIVOS DE GRAVURA
+   Texturas de xilogravura usadas como ACENTOS de marca
+   (sol, serrilha, hachura, losango). Use com parcimônia.
+   ============================================================ */
+
+/* sol do sertão — carimbo radial (marca / brasão) */
+.cc-sol {
+  border-radius: 50%;
+  background: repeating-conic-gradient(var(--tinta) 0 7deg, transparent 7deg 14deg);
+  position: relative;
+  display: inline-grid;
+  place-items: center;
+  aspect-ratio: 1;
+}
+.cc-sol::after {
+  content: '';
+  position: absolute; inset: 26%;
+  border-radius: 50%;
+  background: var(--ocre);
+  border: 2px solid var(--tinta);
+}
+.cc-sol--barro::after { background: var(--barro); }
+.cc-sol--claro {
+  background: repeating-conic-gradient(var(--papel) 0 7deg, transparent 7deg 14deg);
+}
+.cc-sol--claro::after { background: var(--barro); border-color: var(--papel); }
+
+/* serrilha de cordel — borda dente-de-serra */
+.cc-serrilha {
+  height: 12px;
+  background-image:
+    linear-gradient(45deg, var(--tinta) 50%, transparent 50%),
+    linear-gradient(-45deg, var(--tinta) 50%, transparent 50%);
+  background-size: 12px 12px;
+  background-repeat: repeat-x;
+  background-position: bottom;
+}
+.cc-serrilha--barro {
+  background-image:
+    linear-gradient(45deg, var(--barro) 50%, transparent 50%),
+    linear-gradient(-45deg, var(--barro) 50%, transparent 50%);
+}
+.cc-serrilha--topo { background-position: top; transform: scaleY(-1); }
+
+/* hachura — sombreado de buril (fundos de imagem) */
+.cc-hachura {
+  background-image: repeating-linear-gradient(45deg,
+    var(--tinta) 0 1.5px, transparent 1.5px 7px);
+}
+.cc-hachura--barro {
+  background-image: repeating-linear-gradient(45deg,
+    var(--barro) 0 1.5px, transparent 1.5px 7px);
+}
+.cc-hachura--suave {
+  background-image: repeating-linear-gradient(45deg,
+    var(--linha-cor) 0 1.5px, transparent 1.5px 8px);
+}
+
+/* losango — grade de diamantes */
+.cc-losango {
+  background-image:
+    linear-gradient(135deg, var(--tinta) 25%, transparent 25%),
+    linear-gradient(225deg, var(--tinta) 25%, transparent 25%),
+    linear-gradient(315deg, var(--tinta) 25%, transparent 25%),
+    linear-gradient(45deg,  var(--tinta) 25%, transparent 25%);
+  background-size: 16px 16px;
+}

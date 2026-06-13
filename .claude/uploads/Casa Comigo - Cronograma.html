@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Casa Comigo · Cronograma</title>
+<link rel="stylesheet" href="casa-comigo.css">
+<style>
+  body { overflow-x: hidden; }
+  .dia-cabeca { display:flex; align-items:center; gap:12px; margin: 32px 0 14px; }
+  .dia-cabeca .dia { font-family: var(--fonte-display); text-transform:uppercase; font-size: 22px; letter-spacing:.02em; white-space:nowrap; }
+  .tarefas { display:flex; flex-direction:column; gap:16px; }
+  .tarefa-acoes { display:flex; gap:10px; flex-wrap:wrap; }
+</style>
+</head>
+<body>
+<div class="app">
+
+  <!-- ===== SIDEBAR ===== -->
+  <aside class="sidebar">
+    <div class="marca">
+      <span class="sol"></span>
+      <div>
+        <div class="nome">Casa Comigo</div>
+        <div class="sub">ap 404</div>
+      </div>
+    </div>
+    <nav class="nav">
+      <a class="nav-item ativo"><span class="ic">📅</span> Cronograma</a>
+      <a class="nav-item" href="Casa Comigo - Catalogo.html"><span class="ic">📋</span> Catálogo</a>
+      <a class="nav-item" href="Casa Comigo - Preferencias.html"><span class="ic">❤️</span> Preferências</a>
+      <a class="nav-item" href="Casa Comigo - Membros.html"><span class="ic">👥</span> Membros</a>
+      <a class="nav-item" href="Casa Comigo - Relatorios.html"><span class="ic">📊</span> Relatórios</a>
+    </nav>
+    <div class="sidebar-rodape">
+      <a class="trocar" href="#">← Trocar de casa</a>
+      <div class="usuario">
+        <span class="avatar avatar--sm">Q</span>
+        <div>
+          <div style="font-weight:700; font-size:14px;">qa</div>
+          <a class="meta" href="#" style="text-decoration:none; color:var(--barro); font-weight:600;">Sair</a>
+        </div>
+      </div>
+    </div>
+  </aside>
+
+  <!-- ===== CONTEÚDO ===== -->
+  <main class="conteudo">
+    <div class="topo">
+      <div>
+        <div class="eyebrow">Mutirão da semana</div>
+        <h1 class="titulo" style="font-size: clamp(34px,5vw,52px); margin-top:6px;">Cronograma</h1>
+        <p class="meta" style="margin-top:8px; font-size:15px;">42 tarefas no período</p>
+      </div>
+      <button class="btn btn--barro btn--lg">⚡ Distribuir tarefas</button>
+    </div>
+
+    <!-- filtros -->
+    <div class="filtros">
+      <div class="campo-wrap">
+        <label class="rotulo">De</label>
+        <input class="campo" type="date" value="2026-06-07">
+      </div>
+      <div class="campo-wrap">
+        <label class="rotulo">Até</label>
+        <input class="campo" type="date" value="2026-07-07">
+      </div>
+      <div class="campo-wrap">
+        <label class="rotulo">Morador</label>
+        <select class="campo">
+          <option>Todos</option>
+          <option>qa</option>
+          <option>Marcelo</option>
+        </select>
+      </div>
+    </div>
+
+    <!-- DIA: Dom 07/06 -->
+    <div class="dia-cabeca">
+      <span class="dia">Dom · 07/06</span>
+      <span class="papel-pill">1 tarefa</span>
+      <hr class="regua" style="flex:1; opacity:.4;">
+    </div>
+    <div class="tarefas">
+      <article class="bloco bloco-pad">
+        <div class="linha" style="justify-content:space-between; gap:12px; align-items:flex-start;">
+          <h3 style="font-size:20px; font-weight:700;">Aguar plantas</h3>
+          <span class="status status--pendente">Pendente</span>
+        </div>
+        <div class="linha wrap" style="gap:10px; margin-top:12px;">
+          <span class="selo selo--leve">Leve</span>
+          <span class="papel-pill">⏱ 15min</span>
+          <span class="papel-pill"><span class="avatar avatar--sm" style="width:20px;height:20px;font-size:10px;">Q</span> qa</span>
+        </div>
+        <hr class="regua" style="margin:16px 0;">
+        <div class="tarefa-acoes">
+          <button class="btn btn--sm">✓ Concluir</button>
+          <button class="btn btn--ghost btn--sm">⚠ Impedimento</button>
+          <button class="btn btn--ghost btn--sm">↩ Reatribuir</button>
+        </div>
+      </article>
+    </div>
+
+    <!-- DIA: Seg 08/06 -->
+    <div class="dia-cabeca">
+      <span class="dia">Seg · 08/06</span>
+      <span class="papel-pill">2 tarefas</span>
+      <hr class="regua" style="flex:1; opacity:.4;">
+    </div>
+    <div class="tarefas">
+      <article class="bloco bloco-pad">
+        <div class="linha" style="justify-content:space-between; gap:12px; align-items:flex-start;">
+          <h3 style="font-size:20px; font-weight:700;">Lavar roupa</h3>
+          <span class="status status--concluida">Concluída</span>
+        </div>
+        <div class="linha wrap" style="gap:10px; margin-top:12px;">
+          <span class="selo selo--medio">Médio</span>
+          <span class="papel-pill">⏱ 30min</span>
+          <span class="papel-pill"><span class="avatar avatar--sm avatar--indigo" style="width:20px;height:20px;font-size:10px;">M</span> Marcelo</span>
+        </div>
+        <hr class="regua" style="margin:16px 0;">
+        <div class="tarefa-acoes">
+          <button class="btn btn--ghost btn--sm" style="color:var(--verde);">✓ Concluída às 09:12</button>
+          <button class="btn btn--ghost btn--sm">↩ Reatribuir</button>
+        </div>
+      </article>
+
+      <article class="bloco bloco-pad">
+        <div class="linha" style="justify-content:space-between; gap:12px; align-items:flex-start;">
+          <h3 style="font-size:20px; font-weight:700;">Passar pano</h3>
+          <span class="status status--impedida">Impedimento</span>
+        </div>
+        <div class="linha wrap" style="gap:10px; margin-top:12px;">
+          <span class="selo selo--pesado">Pesado</span>
+          <span class="papel-pill">⏱ 40min</span>
+          <span class="papel-pill"><span class="avatar avatar--sm" style="width:20px;height:20px;font-size:10px;">Q</span> qa</span>
+        </div>
+        <div class="aviso aviso--atencao" style="margin-top:14px;">
+          <span class="ic-aviso">!</span> Faltou material de limpeza — reatribuição sugerida.
+        </div>
+        <hr class="regua" style="margin:16px 0;">
+        <div class="tarefa-acoes">
+          <button class="btn btn--barro btn--sm">↩ Reatribuir agora</button>
+          <button class="btn btn--ghost btn--sm">✓ Concluir mesmo assim</button>
+        </div>
+      </article>
+    </div>
+
+    <!-- DIA: Ter 09/06 -->
+    <div class="dia-cabeca">
+      <span class="dia">Ter · 09/06</span>
+      <span class="papel-pill">1 tarefa</span>
+      <hr class="regua" style="flex:1; opacity:.4;">
+    </div>
+    <div class="tarefas">
+      <article class="bloco bloco-pad">
+        <div class="linha" style="justify-content:space-between; gap:12px; align-items:flex-start;">
+          <h3 style="font-size:20px; font-weight:700;">Espanar casa</h3>
+          <span class="status status--atrasada">Atrasada</span>
+        </div>
+        <div class="linha wrap" style="gap:10px; margin-top:12px;">
+          <span class="selo selo--medio">Médio</span>
+          <span class="papel-pill">🏠 casa</span>
+          <span class="papel-pill">⏱ 15min</span>
+          <span class="papel-pill"><span class="avatar avatar--sm avatar--indigo" style="width:20px;height:20px;font-size:10px;">M</span> Marcelo</span>
+        </div>
+        <hr class="regua" style="margin:16px 0;">
+        <div class="tarefa-acoes">
+          <button class="btn btn--sm">✓ Concluir</button>
+          <button class="btn btn--ghost btn--sm">⚠ Impedimento</button>
+          <button class="btn btn--ghost btn--sm">↩ Reatribuir</button>
+        </div>
+      </article>
+    </div>
+
+  </main>
+</div>
+</body>
+</html>

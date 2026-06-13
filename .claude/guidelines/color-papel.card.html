@@ -1,0 +1,22 @@
+<!-- @dsCard group="Colors" viewport="700x150" name="Papel — superfícies" subtitle="Creme de cordel, nunca branco puro" -->
+<!DOCTYPE html>
+<html lang="pt-BR"><head><meta charset="UTF-8">
+<link rel="stylesheet" href="../styles.css">
+<style>
+  body { margin:0; padding:22px; background:var(--bg-app); font-family:var(--font-sans); }
+  .row { display:grid; grid-template-columns:repeat(4,1fr); gap:14px; }
+  .sw { border:1px solid var(--border); border-radius:var(--radius-md); overflow:hidden; box-shadow:var(--shadow-sm); background:var(--surface-card); }
+  .chip { height:64px; }
+  .info { padding:10px 12px; }
+  .nome { font-weight:700; font-size:13.5px; }
+  .hex { font-size:12px; color:var(--text-muted); font-variant-numeric:tabular-nums; }
+  .role { font-size:11px; color:var(--text-muted); margin-top:2px; }
+</style></head>
+<body>
+  <div class="row">
+    <div class="sw"><div class="chip" style="background:var(--papel)"></div><div class="info"><div class="nome">Papel</div><div class="hex">#F1E7D3</div><div class="role">Canvas principal</div></div></div>
+    <div class="sw"><div class="chip" style="background:var(--papel-fundo)"></div><div class="info"><div class="nome">Papel Fundo</div><div class="hex">#E9DCC2</div><div class="role">Trilhos, afundado</div></div></div>
+    <div class="sw"><div class="chip" style="background:var(--papel-claro)"></div><div class="info"><div class="nome">Papel Claro</div><div class="hex">#FBF5E9</div><div class="role">Cartões macios</div></div></div>
+    <div class="sw"><div class="chip" style="background:var(--papel-branco)"></div><div class="info"><div class="nome">Papel Branco</div><div class="hex">#FFFCF6</div><div class="role">Superfície alta</div></div></div>
+  </div>
+</body></html>

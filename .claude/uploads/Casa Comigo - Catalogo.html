@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Casa Comigo · Catálogo</title>
+<link rel="stylesheet" href="casa-comigo.css">
+<style>
+  body { overflow-x: hidden; }
+  .catalogo-grade { display:grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 20px; margin-top: 22px; }
+  .cat-acoes { display:flex; gap:18px; align-items:center; flex-wrap:wrap; }
+  .cat-acoes a { font-weight:700; font-size:14px; text-decoration:none; color:var(--tinta); cursor:pointer; }
+  .cat-acoes a.perigo { color:var(--vermelho); }
+  .cat-acoes a:hover { text-decoration:underline; }
+</style>
+</head>
+<body>
+<div class="app">
+  <aside class="sidebar">
+    <div class="marca">
+      <span class="sol"></span>
+      <div><div class="nome">Casa Comigo</div><div class="sub">ap 404</div></div>
+    </div>
+    <nav class="nav">
+      <a class="nav-item" href="Casa Comigo - Cronograma.html"><span class="ic">📅</span> Cronograma</a>
+      <a class="nav-item ativo"><span class="ic">📋</span> Catálogo</a>
+      <a class="nav-item" href="Casa Comigo - Preferencias.html"><span class="ic">❤️</span> Preferências</a>
+      <a class="nav-item" href="Casa Comigo - Membros.html"><span class="ic">👥</span> Membros</a>
+      <a class="nav-item" href="Casa Comigo - Relatorios.html"><span class="ic">📊</span> Relatórios</a>
+    </nav>
+    <div class="sidebar-rodape">
+      <a class="trocar" href="#">← Trocar de casa</a>
+      <div class="usuario">
+        <span class="avatar avatar--sm">Q</span>
+        <div><div style="font-weight:700; font-size:14px;">qa</div>
+          <a class="meta" href="#" style="text-decoration:none; color:var(--barro); font-weight:600;">Sair</a></div>
+      </div>
+    </div>
+  </aside>
+
+  <main class="conteudo">
+    <div class="topo">
+      <div>
+        <div class="eyebrow">A despensa de serviços</div>
+        <h1 class="titulo">Catálogo de tarefas</h1>
+        <p class="meta" style="margin-top:8px; font-size:15px;">4 tarefas cadastradas</p>
+      </div>
+      <button class="btn btn--barro btn--lg">+ Nova tarefa</button>
+    </div>
+
+    <div style="margin-top:26px; max-width:520px;">
+      <input class="campo" placeholder="🔍  Buscar por nome ou cômodo…">
+    </div>
+
+    <div class="catalogo-grade">
+      <!-- card -->
+      <article class="bloco bloco-pad">
+        <div class="linha" style="justify-content:space-between; gap:12px; align-items:flex-start;">
+          <h3 style="font-size:19px; font-weight:700;">Aguar plantas</h3>
+          <span class="selo selo--leve">Leve</span>
+        </div>
+        <div class="linha wrap" style="gap:10px; margin-top:12px;">
+          <span class="papel-pill">↻ Diária</span>
+          <span class="papel-pill">⏱ 15min</span>
+        </div>
+        <hr class="regua" style="margin:16px 0;">
+        <div class="cat-acoes">
+          <a>Dependências</a><a>Editar</a><a class="perigo">Remover</a>
+        </div>
+      </article>
+
+      <article class="bloco bloco-pad">
+        <div class="linha" style="justify-content:space-between; gap:12px; align-items:flex-start;">
+          <h3 style="font-size:19px; font-weight:700;">Lavar roupa</h3>
+          <span class="selo selo--medio">Médio</span>
+        </div>
+        <div class="linha wrap" style="gap:10px; margin-top:12px;">
+          <span class="papel-pill">↻ Semanal</span>
+          <span class="papel-pill">⏱ 30min</span>
+        </div>
+        <hr class="regua" style="margin:16px 0;">
+        <div class="cat-acoes">
+          <a>Dependências</a><a>Editar</a><a class="perigo">Remover</a>
+        </div>
+      </article>
+
+      <article class="bloco bloco-pad">
+        <div class="linha" style="justify-content:space-between; gap:12px; align-items:flex-start;">
+          <h3 style="font-size:19px; font-weight:700;">Passar pano</h3>
+          <span class="selo selo--pesado">Pesado</span>
+        </div>
+        <div class="linha wrap" style="gap:10px; margin-top:12px;">
+          <span class="papel-pill">↻ Semanal</span>
+          <span class="papel-pill">⏱ 40min</span>
+        </div>
+        <hr class="regua" style="margin:16px 0;">
+        <div class="cat-acoes">
+          <a>Dependências</a><a>Editar</a><a class="perigo">Remover</a>
+        </div>
+      </article>
+
+      <article class="bloco bloco-pad">
+        <div class="linha" style="justify-content:space-between; gap:12px; align-items:flex-start;">
+          <h3 style="font-size:19px; font-weight:700;">Espanar casa</h3>
+          <span class="selo selo--medio">Médio</span>
+        </div>
+        <div class="linha wrap" style="gap:10px; margin-top:12px;">
+          <span class="papel-pill">🏠 casa</span>
+          <span class="papel-pill">↻ Semanal</span>
+          <span class="papel-pill">⏱ 15min</span>
+        </div>
+        <hr class="regua" style="margin:16px 0;">
+        <div class="cat-acoes">
+          <a>Dependências</a><a>Editar</a><a class="perigo">Remover</a>
+        </div>
+      </article>
+    </div>
+  </main>
+</div>
+</body>
+</html>

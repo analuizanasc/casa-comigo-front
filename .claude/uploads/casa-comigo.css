@@ -1,0 +1,430 @@
+/* ============================================================
+   CASA COMIGO — Sistema de Design "Xilogravura Nordestina"
+   Tinta sobre papel · Cordel · Carimbos de madeira
+   ============================================================ */
+
+@import url('https://fonts.googleapis.com/css2?family=Anton&family=Archivo:ital,wght@0,400;0,500;0,600;0,700;0,800;1,400;1,500;1,600&display=swap');
+
+:root {
+  /* ---- PAPEL (superfícies) ---- */
+  --papel:        #F1E7D3;  /* canvas principal — papel de cordel */
+  --papel-fundo:  #E9DCC2;  /* fundo mais escuro, separadores */
+  --papel-claro:  #FBF5E9;  /* cartões, superfície clara */
+  --papel-branco: #FFFCF6;  /* superfície mais alta */
+
+  /* ---- TINTA (texto / traço) ---- */
+  --tinta:        #211A12;  /* preto-tinta quente — traço de gravura */
+  --tinta-suave:  #5B4F3E;  /* texto secundário */
+  --tinta-fraca:  #8A7C66;  /* metadados, legendas */
+
+  /* ---- BARRO (terracota — primária) ---- */
+  --barro:        #B14A28;  /* terracota / telha — ação primária */
+  --barro-fundo:  #8C3618;  /* terracota profunda — pressão/hover */
+  --barro-claro:  #E8D0C2;  /* tinta clara de barro p/ fundos */
+
+  /* ---- ACENTOS NORDESTINOS ---- */
+  --indigo:       #2C4A5A;  /* anil de cordel — informação, links */
+  --indigo-claro: #CFDCE0;
+  --verde:        #5E7440;  /* verde-caatinga — leve / sucesso */
+  --verde-claro:  #D6DEC2;
+  --ocre:         #C9892B;  /* sol do sertão — médio / atenção */
+  --ocre-claro:   #F0DEB6;
+  --vermelho:     #A12E1C;  /* vermelho-barro — pesado / perigo */
+  --vermelho-claro:#EBCFC6;
+
+  /* ---- SEMÂNTICAS (ref. Starbucks) ---- */
+  --alerta:       #C82014;  /* vermelho de erro / estado inválido */
+  --alerta-claro: #F4D6D2;
+  --aviso:        #FBBC05;  /* amarelo de aviso / atenção */
+  --aviso-claro:  #FBEFC6;
+  --sucesso:      #006241;  /* verde Starbucks — confirmação forte */
+  --sucesso-claro:#D4E9E2;
+
+  /* ---- TRAÇO & ELEVAÇÃO ---- */
+  --traco: 2px solid var(--tinta);
+  --traco-fino: 1.5px solid var(--tinta);
+  --bloco-sombra: 4px 4px 0 var(--tinta);            /* sombra dura — bloco impresso */
+  --bloco-sombra-sm: 3px 3px 0 var(--tinta);
+  --bloco-sombra-barro: 4px 4px 0 var(--barro-fundo);
+
+  /* ---- RAIO (cantos quase retos — sensação de carimbo) ---- */
+  --raio: 4px;
+  --raio-sm: 3px;
+
+  /* ---- ESPAÇO ---- */
+  --gap-1: 4px; --gap-2: 8px; --gap-3: 16px; --gap-4: 24px;
+  --gap-5: 32px; --gap-6: 48px; --gap-7: 64px;
+
+  --fonte-display: 'Anton', 'Archivo', sans-serif;
+  --fonte: 'Archivo', system-ui, sans-serif;
+}
+
+/* ============================================================
+   BASE
+   ============================================================ */
+* { box-sizing: border-box; }
+html { -webkit-font-smoothing: antialiased; text-rendering: optimizeLegibility; }
+body {
+  margin: 0;
+  font-family: var(--fonte);
+  color: var(--tinta);
+  background-color: var(--papel);
+  background-image:
+    /* grão sutil de papel impresso */
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.045'/%3E%3C/svg%3E");
+  line-height: 1.55;
+}
+
+/* ============================================================
+   TEXTURAS DE GRAVURA (motivos)
+   ============================================================ */
+
+/* serrilha de cordel — borda dente-de-serra */
+.serrilha {
+  height: 12px;
+  background-image:
+    linear-gradient(45deg, var(--tinta) 50%, transparent 50%),
+    linear-gradient(-45deg, var(--tinta) 50%, transparent 50%);
+  background-size: 12px 12px;
+  background-repeat: repeat-x;
+  background-position: bottom;
+}
+.serrilha--barro {
+  background-image:
+    linear-gradient(45deg, var(--barro) 50%, transparent 50%),
+    linear-gradient(-45deg, var(--barro) 50%, transparent 50%);
+}
+.serrilha--topo { background-position: top; transform: scaleY(-1); }
+
+/* hachura — sombreamento de buril (placeholders de imagem) */
+.hachura {
+  background-image: repeating-linear-gradient(45deg,
+     var(--tinta) 0 1.5px, transparent 1.5px 7px);
+}
+.hachura--barro {
+  background-image: repeating-linear-gradient(45deg,
+     var(--barro) 0 1.5px, transparent 1.5px 7px);
+}
+
+/* sol do sertão — carimbo radial */
+.sol {
+  border-radius: 50%;
+  background: repeating-conic-gradient(var(--tinta) 0 7deg, transparent 7deg 14deg);
+  position: relative;
+  display: inline-grid; place-items: center;
+}
+.sol::after {
+  content: '';
+  position: absolute; inset: 26%;
+  border-radius: 50%;
+  background: var(--ocre);
+  border: var(--traco);
+}
+
+/* losango — grade de diamantes */
+.losango {
+  background-image:
+    linear-gradient(135deg, var(--tinta) 25%, transparent 25%),
+    linear-gradient(225deg, var(--tinta) 25%, transparent 25%),
+    linear-gradient(315deg, var(--tinta) 25%, transparent 25%),
+    linear-gradient(45deg,  var(--tinta) 25%, transparent 25%);
+  background-size: 16px 16px;
+}
+
+/* ============================================================
+   TIPOGRAFIA
+   ============================================================ */
+.display {
+  font-family: var(--fonte-display);
+  font-weight: 400;
+  text-transform: uppercase;
+  letter-spacing: 0.01em;
+  line-height: 0.92;
+  margin: 0;
+}
+.d-xl { font-size: clamp(56px, 9vw, 120px); }
+.d-lg { font-size: clamp(40px, 6vw, 76px); }
+.d-md { font-size: clamp(30px, 4vw, 46px); }
+
+h1, h2, h3, h4 { font-family: var(--fonte); margin: 0; letter-spacing: -0.01em; }
+.titulo {
+  font-family: var(--fonte-display);
+  text-transform: uppercase;
+  font-weight: 400;
+  letter-spacing: 0.015em;
+  line-height: 1;
+}
+.eyebrow {
+  font-family: var(--fonte);
+  text-transform: uppercase;
+  font-weight: 700;
+  font-size: 12px;
+  letter-spacing: 0.22em;
+  color: var(--barro);
+}
+.lead { font-size: 19px; line-height: 1.5; color: var(--tinta-suave); }
+.corpo { font-size: 16px; color: var(--tinta); }
+.meta { font-size: 13.5px; color: var(--tinta-fraca); }
+.verso {
+  font-style: italic; font-weight: 500;
+  font-size: 18px; line-height: 1.5; color: var(--tinta-suave);
+}
+
+/* número de seção gigante (cartaz) */
+.secao-num {
+  font-family: var(--fonte-display);
+  font-size: clamp(48px, 7vw, 88px);
+  line-height: 0.8;
+  color: var(--papel);
+  -webkit-text-stroke: 2px var(--tinta);
+  text-stroke: 2px var(--tinta);
+}
+
+/* ============================================================
+   BOTÕES
+   ============================================================ */
+.btn {
+  font-family: var(--fonte);
+  font-weight: 700;
+  font-size: 15px;
+  letter-spacing: 0.01em;
+  display: inline-flex; align-items: center; gap: 8px;
+  padding: 11px 20px;
+  border: var(--traco);
+  border-radius: var(--raio);
+  background: var(--papel-branco);
+  color: var(--tinta);
+  cursor: pointer;
+  box-shadow: var(--bloco-sombra-sm);
+  transition: transform .08s ease, box-shadow .08s ease, background .15s ease;
+  text-decoration: none;
+  white-space: nowrap;
+}
+.btn:hover { transform: translate(-1px,-1px); box-shadow: 4px 4px 0 var(--tinta); }
+.btn:active { transform: translate(3px,3px); box-shadow: 0 0 0 var(--tinta); }
+
+.btn--barro { background: var(--barro); color: #fff; }
+.btn--barro:hover { background: var(--barro-fundo); }
+.btn--indigo { background: var(--indigo); color: #fff; }
+.btn--ink { background: var(--tinta); color: var(--papel); }
+.btn--ghost { box-shadow: none; background: transparent; }
+.btn--ghost:hover { box-shadow: none; background: var(--papel-fundo); transform: none; }
+.btn--perigo { color: var(--vermelho); border-color: var(--vermelho); }
+.btn--sm { padding: 7px 13px; font-size: 13px; box-shadow: var(--bloco-sombra-sm); }
+.btn--lg { padding: 14px 26px; font-size: 17px; }
+
+/* ============================================================
+   SELOS / CARIMBOS (badges)
+   ============================================================ */
+.selo {
+  display: inline-flex; align-items: center; gap: 6px;
+  font-family: var(--fonte);
+  font-weight: 700;
+  text-transform: uppercase;
+  font-size: 11.5px;
+  letter-spacing: 0.12em;
+  padding: 4px 11px;
+  border: var(--traco-fino);
+  border-radius: 999px;
+  background: var(--papel-branco);
+  color: var(--tinta);
+  line-height: 1;
+  white-space: nowrap;
+}
+.selo--leve   { background: var(--verde-claro);    border-color: var(--verde);    color: #3d5026; }
+.selo--medio  { background: var(--ocre-claro);     border-color: var(--ocre);     color: #855415; }
+.selo--pesado { background: var(--vermelho-claro);  border-color: var(--vermelho); color: var(--vermelho); }
+
+/* status — carimbo retangular */
+.status {
+  display: inline-flex; align-items: center; gap: 6px;
+  font-family: var(--fonte); font-weight: 700;
+  text-transform: uppercase; font-size: 11px; letter-spacing: 0.1em;
+  padding: 5px 11px; border: var(--traco-fino); border-radius: var(--raio-sm);
+  background: var(--papel-branco); line-height: 1;
+}
+.status::before {
+  content:''; width: 8px; height: 8px; border-radius: 50%;
+  background: currentColor; border: 1px solid var(--tinta);
+}
+.status--pendente  { color: var(--indigo);   background: var(--indigo-claro); }
+.status--concluida { color: var(--verde);    background: var(--verde-claro); }
+.status--atrasada  { color: var(--vermelho); background: var(--vermelho-claro); }
+.status--impedida  { color: var(--ocre);     background: var(--ocre-claro); }
+
+.papel-pill {
+  display:inline-flex; align-items:center; gap:6px;
+  font-size: 12.5px; font-weight: 600;
+  padding: 3px 10px; border-radius: 999px;
+  background: var(--papel-fundo); color: var(--tinta-suave);
+  white-space: nowrap;
+}
+
+/* avisos — faixa semântica (erro / atenção / sucesso) */
+.aviso {
+  display:flex; align-items:center; gap:10px;
+  padding: 12px 16px; border: var(--traco-fino); border-radius: var(--raio);
+  font-weight: 600; font-size: 14.5px;
+}
+.aviso--erro    { background: var(--alerta-claro);  border-color: var(--alerta);  color: #7d1610; box-shadow: 3px 3px 0 var(--alerta); }
+.aviso--atencao { background: var(--aviso-claro);   border-color: #C99A05;        color: #6b5202; box-shadow: 3px 3px 0 #C99A05; }
+.aviso--ok      { background: var(--sucesso-claro); border-color: var(--sucesso); color: #003a26; box-shadow: 3px 3px 0 var(--sucesso); }
+.aviso .ic-aviso { width:24px;height:24px;flex:none;border-radius:50%;display:grid;place-items:center;
+  border:var(--traco-fino); font-size:13px; background:var(--papel-branco); }
+
+/* ============================================================
+   BLOCO (cartão impresso)
+   ============================================================ */
+.bloco {
+  background: var(--papel-branco);
+  border: var(--traco);
+  border-radius: var(--raio);
+  box-shadow: var(--bloco-sombra);
+}
+.bloco--chapado { box-shadow: none; }
+.bloco--barro { box-shadow: var(--bloco-sombra-barro); }
+.bloco-pad { padding: var(--gap-4); }
+
+/* avatar / carimbo de inicial */
+.avatar {
+  width: 42px; height: 42px; flex: none;
+  display: grid; place-items: center;
+  border-radius: 50%;
+  border: var(--traco);
+  background: var(--barro-claro);
+  color: var(--barro-fundo);
+  font-family: var(--fonte-display);
+  font-size: 18px; text-transform: uppercase;
+}
+.avatar--indigo { background: var(--indigo-claro); color: var(--indigo); }
+.avatar--sm { width: 30px; height: 30px; font-size: 13px; }
+
+/* ============================================================
+   ENTRADAS / FORMULÁRIO
+   ============================================================ */
+.campo {
+  font-family: var(--fonte); font-size: 15px;
+  padding: 11px 13px;
+  border: var(--traco-fino);
+  border-radius: var(--raio);
+  background: var(--papel-branco);
+  color: var(--tinta);
+  width: 100%;
+}
+.campo:focus { outline: none; border-color: var(--barro); box-shadow: 3px 3px 0 var(--barro); }
+.campo::placeholder { color: var(--tinta-fraca); }
+.rotulo {
+  display:block; font-weight: 700; font-size: 13px;
+  text-transform: uppercase; letter-spacing: 0.08em;
+  color: var(--tinta-suave); margin-bottom: 7px;
+}
+
+/* segmento de preferência (👎 😐 👍) */
+.pref { display: inline-flex; border: var(--traco-fino); border-radius: var(--raio); overflow: hidden; }
+.pref button {
+  border: none; background: var(--papel-branco); cursor: pointer;
+  font-size: 18px; padding: 7px 13px; line-height: 1;
+  border-right: var(--traco-fino);
+}
+.pref button:last-child { border-right: none; }
+.pref button[aria-pressed="true"] { background: var(--ocre-claro); }
+.pref button.up[aria-pressed="true"]   { background: var(--verde-claro); }
+.pref button.down[aria-pressed="true"] { background: var(--vermelho-claro); }
+
+/* ============================================================
+   BARRA DE DISTRIBUIÇÃO / PROGRESSO
+   ============================================================ */
+.barra {
+  height: 14px; border: var(--traco-fino); border-radius: 999px;
+  background: var(--papel-fundo); overflow: hidden; position: relative;
+}
+.barra > span {
+  display:block; height: 100%;
+  background: var(--barro);
+  background-image: repeating-linear-gradient(45deg,
+     rgba(0,0,0,.16) 0 2px, transparent 2px 8px);
+}
+.barra--alvo > span { background: var(--papel-fundo);
+  background-image: repeating-linear-gradient(45deg,
+     var(--tinta-fraca) 0 1.5px, transparent 1.5px 7px); }
+.barra--verde > span { background: var(--verde); }
+
+/* anel de progresso (relatórios) */
+.anel {
+  width: 58px; height: 58px; border-radius: 50%;
+  display: grid; place-items: center;
+  font-family: var(--fonte-display); font-size: 15px;
+  border: var(--traco);
+  background: conic-gradient(var(--barro) var(--p,0%), var(--papel-fundo) 0);
+}
+.anel > span { width: 42px; height: 42px; border-radius: 50%;
+  background: var(--papel-branco); display: grid; place-items: center;
+  border: var(--traco-fino); }
+
+/* ============================================================
+   NAVEGAÇÃO (sidebar)
+   ============================================================ */
+.nav-item {
+  display: flex; align-items: center; gap: 12px;
+  padding: 11px 14px; border-radius: var(--raio);
+  font-weight: 600; font-size: 16px; color: var(--tinta-suave);
+  text-decoration: none; cursor: pointer;
+  border: 2px solid transparent;
+}
+.nav-item:hover { background: var(--papel-fundo); }
+.nav-item.ativo {
+  background: var(--barro-claro);
+  border-color: var(--barro);
+  color: var(--barro-fundo);
+  font-weight: 700;
+}
+.nav-item .ic { width: 22px; text-align: center; font-size: 18px; }
+
+/* ============================================================
+   UTILIDADES
+   ============================================================ */
+.linha { display:flex; align-items:center; }
+.linha > h3 { flex: 1 1 auto; min-width: 0; }
+.col { display:flex; flex-direction: column; }
+.wrap { flex-wrap: wrap; }
+.regua { height: 0; border: none; border-top: var(--traco-fino); opacity: .5; margin: 0; }
+.divisor-pontos { height: 2px; background-image: radial-gradient(var(--tinta) 1px, transparent 1px); background-size: 8px 2px; }
+
+/* ============================================================
+   SHELL DO APP (sidebar + conteúdo)
+   ============================================================ */
+.app { display: grid; grid-template-columns: 264px minmax(0,1fr); min-height: 100vh; }
+
+.sidebar {
+  background: var(--papel-claro);
+  border-right: var(--traco);
+  display: flex; flex-direction: column;
+  padding: 22px 16px;
+  position: sticky; top: 0; height: 100vh;
+}
+.marca { display:flex; align-items:center; gap:12px; padding: 4px 8px 18px; }
+.marca .sol { width:40px; height:40px; flex:none; }
+.marca .nome { font-family: var(--fonte-display); text-transform:uppercase; font-size:17px; line-height:1.04; white-space:nowrap; }
+.marca .sub { font-size:12px; color:var(--tinta-fraca); margin-top:3px; }
+.nav { display:flex; flex-direction:column; gap:4px; margin-top: 14px; }
+.nav-item .ic-emoji { width:22px; text-align:center; font-size:18px; }
+.sidebar-rodape { margin-top:auto; padding-top:16px; border-top: var(--traco-fino); }
+.trocar { display:block; font-size:13px; color:var(--tinta-fraca); padding: 6px 8px; text-decoration:none; font-weight:600; }
+.usuario { display:flex; align-items:center; gap:10px; padding: 8px; }
+
+.conteudo { padding: 36px 44px 80px; max-width: 1100px; }
+.topo { display:flex; align-items:flex-start; justify-content:space-between; gap:20px; flex-wrap:wrap; }
+.topo .titulo { font-size: clamp(28px,4vw,44px); margin-top:8px; margin-bottom: 34px; line-height: 1.16; }
+.topo > div { min-width: 0; flex: 1 1 320px; }
+.topo .eyebrow { white-space: nowrap; }
+.filtros { display:flex; gap:16px; flex-wrap:wrap; margin: 28px 0 8px; align-items:flex-end; }
+.filtros .campo-wrap { display:flex; flex-direction:column; }
+.filtros .campo { min-width: 168px; }
+
+.secao-titulo { font-family: var(--fonte-display); text-transform:uppercase; font-size: clamp(22px,3vw,30px); letter-spacing:.02em; line-height:1.2; margin: 36px 0 16px; }
+
+@media (max-width: 860px){
+  .app { grid-template-columns: 1fr; }
+  .sidebar { position:static; height:auto; }
+  .conteudo { padding: 24px; }
+}

@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Casa Comigo · Preferências</title>
+<link rel="stylesheet" href="casa-comigo.css">
+<style>
+  body { overflow-x: hidden; }
+  .pref-lista { display:flex; flex-direction:column; gap:16px; margin-top:24px; }
+  .pref-linha { display:flex; align-items:center; justify-content:space-between; gap:20px; flex-wrap:wrap; }
+  .pref-dir { display:flex; align-items:center; gap:20px; flex-wrap:wrap; }
+  .lim { display:flex; align-items:center; gap:8px; font-weight:600; font-size:14px; color:var(--tinta-suave); }
+  .lim input { width:18px; height:18px; accent-color: var(--barro); }
+</style>
+</head>
+<body>
+<div class="app">
+  <aside class="sidebar">
+    <div class="marca">
+      <span class="sol"></span>
+      <div><div class="nome">Casa Comigo</div><div class="sub">ap 404</div></div>
+    </div>
+    <nav class="nav">
+      <a class="nav-item" href="Casa Comigo - Cronograma.html"><span class="ic">📅</span> Cronograma</a>
+      <a class="nav-item" href="Casa Comigo - Catalogo.html"><span class="ic">📋</span> Catálogo</a>
+      <a class="nav-item ativo"><span class="ic">❤️</span> Preferências</a>
+      <a class="nav-item" href="Casa Comigo - Membros.html"><span class="ic">👥</span> Membros</a>
+      <a class="nav-item" href="Casa Comigo - Relatorios.html"><span class="ic">📊</span> Relatórios</a>
+    </nav>
+    <div class="sidebar-rodape">
+      <a class="trocar" href="#">← Trocar de casa</a>
+      <div class="usuario">
+        <span class="avatar avatar--sm">Q</span>
+        <div><div style="font-weight:700; font-size:14px;">qa</div>
+          <a class="meta" href="#" style="text-decoration:none; color:var(--barro); font-weight:600;">Sair</a></div>
+      </div>
+    </div>
+  </aside>
+
+  <main class="conteudo">
+    <div class="topo">
+      <div>
+        <div class="eyebrow">Cada um no seu feitio</div>
+        <h1 class="titulo">Minhas preferências</h1>
+        <p class="meta" style="margin-top:8px; font-size:15px;">Diga o que você gosta e o que tem limitações</p>
+      </div>
+    </div>
+
+    <div style="margin-top:26px; max-width:520px;">
+      <input class="campo" placeholder="🔍  Buscar tarefa ou cômodo…">
+    </div>
+
+    <div class="pref-lista">
+      <div class="bloco bloco-pad pref-linha">
+        <div>
+          <h3 style="font-size:18px; font-weight:700;">Espanar casa</h3>
+          <div class="linha wrap" style="gap:8px; margin-top:8px;">
+            <span class="papel-pill">🏠 casa</span><span class="selo selo--medio">Médio</span>
+          </div>
+        </div>
+        <div class="pref-dir">
+          <div class="pref" role="group" aria-label="preferência">
+            <button class="down" aria-pressed="false">👎</button>
+            <button class="neutral" aria-pressed="true">😐</button>
+            <button class="up" aria-pressed="false">👍</button>
+          </div>
+          <label class="lim"><input type="checkbox"> Limitação física</label>
+        </div>
+      </div>
+
+      <div class="bloco bloco-pad pref-linha">
+        <div>
+          <h3 style="font-size:18px; font-weight:700;">Passar pano</h3>
+          <div class="linha wrap" style="gap:8px; margin-top:8px;">
+            <span class="selo selo--pesado">Pesado</span>
+          </div>
+        </div>
+        <div class="pref-dir">
+          <div class="pref" role="group" aria-label="preferência">
+            <button class="down" aria-pressed="true">👎</button>
+            <button class="neutral" aria-pressed="false">😐</button>
+            <button class="up" aria-pressed="false">👍</button>
+          </div>
+          <label class="lim"><input type="checkbox" checked> Limitação física</label>
+        </div>
+      </div>
+
+      <div class="bloco bloco-pad pref-linha">
+        <div>
+          <h3 style="font-size:18px; font-weight:700;">Lavar roupa</h3>
+          <div class="linha wrap" style="gap:8px; margin-top:8px;">
+            <span class="selo selo--medio">Médio</span>
+          </div>
+        </div>
+        <div class="pref-dir">
+          <div class="pref" role="group" aria-label="preferência">
+            <button class="down" aria-pressed="false">👎</button>
+            <button class="neutral" aria-pressed="false">😐</button>
+            <button class="up" aria-pressed="true">👍</button>
+          </div>
+          <label class="lim"><input type="checkbox"> Limitação física</label>
+        </div>
+      </div>
+
+      <div class="bloco bloco-pad pref-linha">
+        <div>
+          <h3 style="font-size:18px; font-weight:700;">Aguar plantas</h3>
+          <div class="linha wrap" style="gap:8px; margin-top:8px;">
+            <span class="selo selo--leve">Leve</span>
+          </div>
+        </div>
+        <div class="pref-dir">
+          <div class="pref" role="group" aria-label="preferência">
+            <button class="down" aria-pressed="false">👎</button>
+            <button class="neutral" aria-pressed="false">😐</button>
+            <button class="up" aria-pressed="true">👍</button>
+          </div>
+          <label class="lim"><input type="checkbox"> Limitação física</label>
+        </div>
+      </div>
+    </div>
+  </main>
+</div>
+
+<script>
+  // segmento de preferência interativo
+  document.querySelectorAll('.pref').forEach(function(grp){
+    grp.querySelectorAll('button').forEach(function(b){
+      b.addEventListener('click', function(){
+        grp.querySelectorAll('button').forEach(function(x){ x.setAttribute('aria-pressed','false'); });
+        b.setAttribute('aria-pressed','true');
+      });
+    });
+  });
+</script>
+</body>
+</html>

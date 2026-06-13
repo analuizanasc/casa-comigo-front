@@ -1,0 +1,52 @@
+<!-- @dsCard group="Components" viewport="700x340" name="Formulários — Campo, Lista, Preferência" subtitle="Foco terracota, rótulos de carimbo, segmento de afinidade" -->
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="stylesheet" href="../../styles.css">
+<style>
+  body { margin: 0; padding: 26px; background: var(--bg-app); }
+  .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 18px; align-items: start; }
+  .lbl { font-family: var(--font-sans); text-transform: uppercase; font-weight: 700;
+         font-size: 11px; letter-spacing: 0.18em; color: var(--text-muted); margin: 0 0 10px; }
+</style>
+</head>
+<body>
+<div id="root"></div>
+<script src="https://unpkg.com/react@18.3.1/umd/react.development.js" integrity="sha384-hD6/rw4ppMLGNu3tX5cjIb+uRZ7UkRJ6BPkLpg4hAu/6onKUg4lLsHAs9EBPT82L" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.development.js" integrity="sha384-u6aeetuaXnQ38mYT8rp6sbXaQe3NL9t+IBXmnYxwkUI2Hw4bsp2Wvmx4yRQF1uAm" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js" integrity="sha384-m08KidiNqLdpJqLq95G/LEi8Qvjl/xUYll3QILypMoQ65QorJ9Lvtp2RXYGBFj1y" crossorigin="anonymous"></script>
+<script src="../../_ds_bundle.js"></script>
+<script type="text/babel">
+  const { Input, Select, PreferenceToggle } = window.CasaComigoDesignSystem_64c258;
+  function Demo() {
+    const [pref, setPref] = React.useState('like');
+    const [pref2, setPref2] = React.useState('hate');
+    return (
+      <div className="grid">
+        <div>
+          <Input id="busca" label="Buscar" placeholder="Buscar por tarefa ou cômodo…" />
+          <div style={{height:14}}></div>
+          <Input id="erro" label="Nome da casa" defaultValue="" error="Campo obrigatório" />
+        </div>
+        <div>
+          <Select id="morador" label="Morador" options={[
+            {value:'todos', label:'Todos'},
+            {value:'qa', label:'qa'},
+            {value:'marcelo', label:'Marcelo'},
+          ]} />
+          <div style={{height:18}}></div>
+          <p className="lbl">Preferência por tarefa</p>
+          <div style={{display:'flex', flexDirection:'column', gap:12}}>
+            <PreferenceToggle value={pref} onChange={setPref} />
+            <PreferenceToggle value={pref2} onChange={setPref2} showLabels />
+          </div>
+        </div>
+      </div>
+    );
+  }
+  ReactDOM.createRoot(document.getElementById('root')).render(<Demo />);
+</script>
+</body>
+</html>

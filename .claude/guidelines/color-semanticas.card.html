@@ -1,0 +1,22 @@
+<!-- @dsCard group="Colors" viewport="700x150" name="Semânticas — estado" subtitle="Erro, aviso e sucesso" -->
+<!DOCTYPE html>
+<html lang="pt-BR"><head><meta charset="UTF-8">
+<link rel="stylesheet" href="../styles.css">
+<style>
+  body { margin:0; padding:22px; background:var(--bg-app); font-family:var(--font-sans); }
+  .row { display:grid; grid-template-columns:repeat(4,1fr); gap:14px; }
+  .sw { border:1px solid var(--border); border-radius:var(--radius-md); overflow:hidden; box-shadow:var(--shadow-sm); background:var(--surface-card); }
+  .chip { height:64px; }
+  .info { padding:10px 12px; }
+  .nome { font-weight:700; font-size:13.5px; }
+  .hex { font-size:12px; color:var(--text-muted); font-variant-numeric:tabular-nums; }
+  .role { font-size:11px; color:var(--text-muted); margin-top:2px; }
+</style></head>
+<body>
+  <div class="row">
+    <div class="sw"><div class="chip" style="background:var(--alerta)"></div><div class="info"><div class="nome">Erro</div><div class="hex">#C82014</div><div class="role">Estado inválido</div></div></div>
+    <div class="sw"><div class="chip" style="background:var(--aviso)"></div><div class="info"><div class="nome">Aviso</div><div class="hex">#FBBC05</div><div class="role">Atenção</div></div></div>
+    <div class="sw"><div class="chip" style="background:var(--sucesso)"></div><div class="info"><div class="nome">Sucesso</div><div class="hex">#006241</div><div class="role">Confirmação</div></div></div>
+    <div class="sw"><div class="chip" style="background:var(--sucesso-claro)"></div><div class="info"><div class="nome">Sucesso Claro</div><div class="hex">#D4E9E2</div><div class="role">Fundo válido</div></div></div>
+  </div>
+</body></html>

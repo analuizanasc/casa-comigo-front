@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Casa Comigo · Membros</title>
+<link rel="stylesheet" href="casa-comigo.css">
+<style>
+  body { overflow-x: hidden; }
+  .membro-lista { display:flex; flex-direction:column; gap:16px; margin-top:20px; }
+  .membro-acoes { display:flex; gap:16px; }
+  .membro-acoes a { font-weight:700; font-size:14px; text-decoration:none; cursor:pointer; }
+  .membro-acoes a:hover { text-decoration:underline; }
+  .carga-linha { display:flex; flex-direction:column; gap:6px; }
+</style>
+</head>
+<body>
+<div class="app">
+  <aside class="sidebar">
+    <div class="marca">
+      <span class="sol"></span>
+      <div><div class="nome">Casa Comigo</div><div class="sub">ap 404</div></div>
+    </div>
+    <nav class="nav">
+      <a class="nav-item" href="Casa Comigo - Cronograma.html"><span class="ic">📅</span> Cronograma</a>
+      <a class="nav-item" href="Casa Comigo - Catalogo.html"><span class="ic">📋</span> Catálogo</a>
+      <a class="nav-item" href="Casa Comigo - Preferencias.html"><span class="ic">❤️</span> Preferências</a>
+      <a class="nav-item ativo"><span class="ic">👥</span> Membros</a>
+      <a class="nav-item" href="Casa Comigo - Relatorios.html"><span class="ic">📊</span> Relatórios</a>
+    </nav>
+    <div class="sidebar-rodape">
+      <a class="trocar" href="#">← Trocar de casa</a>
+      <div class="usuario">
+        <span class="avatar avatar--sm">Q</span>
+        <div><div style="font-weight:700; font-size:14px;">qa</div>
+          <a class="meta" href="#" style="text-decoration:none; color:var(--barro); font-weight:600;">Sair</a></div>
+      </div>
+    </div>
+  </aside>
+
+  <main class="conteudo">
+    <div class="topo">
+      <div>
+        <div class="eyebrow">Quem mora na casa</div>
+        <h1 class="titulo">Membros</h1>
+        <p class="meta" style="margin-top:8px; font-size:15px;">2 membros na casa</p>
+      </div>
+      <button class="btn btn--barro btn--lg">+ Convidar membro</button>
+    </div>
+
+    <!-- distribuição de carga -->
+    <div class="bloco bloco-pad" style="margin-top:26px;">
+      <div class="linha" style="justify-content:space-between; gap:12px; flex-wrap:wrap;">
+        <strong style="font-size:18px; flex:1; min-width:0;">Distribuição de carga</strong>
+        <span class="status status--pendente">Distribuição igualitária</span>
+      </div>
+      <div style="margin-top:18px; display:flex; flex-direction:column; gap:16px;">
+        <div class="carga-linha">
+          <div class="linha" style="justify-content:space-between;"><span style="font-weight:600;">qa</span><strong style="font-family:var(--fonte-display); font-size:18px;">50%</strong></div>
+          <div class="barra"><span style="width:50%"></span></div>
+        </div>
+        <div class="carga-linha">
+          <div class="linha" style="justify-content:space-between;"><span style="font-weight:600;">Marcelo</span><strong style="font-family:var(--fonte-display); font-size:18px;">50%</strong></div>
+          <div class="barra"><span style="width:50%"></span></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- membros -->
+    <div class="membro-lista">
+      <article class="bloco bloco-pad linha" style="gap:16px; align-items:flex-start;">
+        <span class="avatar" style="width:48px;height:48px;font-size:20px;">Q</span>
+        <div style="flex:1;">
+          <div class="linha" style="justify-content:space-between; gap:12px; flex-wrap:wrap;">
+            <div>
+              <strong style="font-size:18px;">qa</strong>
+              <div class="meta"><a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="186979586979367b7775">[email&#160;protected]</a></div>
+            </div>
+            <div class="membro-acoes">
+              <a style="color:var(--tinta);">Editar</a>
+              <a style="color:var(--vermelho);">Remover</a>
+            </div>
+          </div>
+          <div class="linha wrap" style="gap:8px; margin-top:12px;">
+            <span class="selo" style="background:var(--barro-claro); border-color:var(--barro); color:var(--barro-fundo);">Administrador</span>
+            <span class="papel-pill">⏱ 10h/sem</span>
+          </div>
+        </div>
+      </article>
+
+      <article class="bloco bloco-pad linha" style="gap:16px; align-items:flex-start;">
+        <span class="avatar avatar--indigo" style="width:48px;height:48px;font-size:20px;">M</span>
+        <div style="flex:1;">
+          <div class="linha" style="justify-content:space-between; gap:12px; flex-wrap:wrap;">
+            <div>
+              <strong style="font-size:18px;">Marcelo</strong>
+              <div class="meta"><a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="234e425140464f4c6357465057460d404c4e">[email&#160;protected]</a></div>
+            </div>
+            <div class="membro-acoes">
+              <a style="color:var(--tinta);">Editar</a>
+              <a style="color:var(--vermelho);">Remover</a>
+            </div>
+          </div>
+          <div class="linha wrap" style="gap:8px; margin-top:12px;">
+            <span class="selo">Morador</span>
+            <span class="papel-pill">⏱ 10h/sem</span>
+          </div>
+        </div>
+      </article>
+    </div>
+  </main>
+</div>
+<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script></body>
+</html>

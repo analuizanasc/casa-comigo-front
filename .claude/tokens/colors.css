@@ -1,0 +1,74 @@
+/* ============================================================
+   CASA COMIGO · COR
+   Paleta xilogravura nordestina — tinta sobre papel de cordel.
+   Base values + semantic aliases.
+   ============================================================ */
+
+:root {
+  /* ---- PAPEL · superfícies (creme de cordel, nunca branco puro) ---- */
+  --papel:         #F1E7D3;  /* canvas principal */
+  --papel-fundo:   #E9DCC2;  /* fundo mais escuro · trilhos, separadores */
+  --papel-claro:   #FBF5E9;  /* cartões */
+  --papel-branco:  #FFFCF6;  /* superfície mais alta */
+
+  /* ---- TINTA · texto e traço (preto-tinta quente) ---- */
+  --tinta:         #211A12;  /* texto forte / traço de gravura */
+  --tinta-suave:   #5B4F3E;  /* texto secundário */
+  --tinta-fraca:   #8A7C66;  /* metadados, legendas */
+
+  /* ---- BARRO · terracota (ação primária) ---- */
+  --barro:         #B14A28;
+  --barro-fundo:   #8C3618;  /* pressão / hover */
+  --barro-claro:   #E8D0C2;  /* tinta clara p/ fundos */
+
+  /* ---- ACENTOS NORDESTINOS ---- */
+  --indigo:        #2C4A5A;  /* anil de cordel — informação, links */
+  --indigo-claro:  #CFDCE0;
+  --verde:         #5E7440;  /* verde-caatinga — leve */
+  --verde-claro:   #D6DEC2;
+  --ocre:          #C9892B;  /* sol do sertão — médio */
+  --ocre-claro:    #F0DEB6;
+  --vermelho:      #A12E1C;  /* vermelho-barro — pesado */
+  --vermelho-claro:#EBCFC6;
+
+  /* ---- SEMÂNTICAS (estado) ---- */
+  --alerta:        #C82014;  --alerta-claro:  #F4D6D2;
+  --aviso:         #FBBC05;  --aviso-claro:   #FBEFC6;
+  --sucesso:       #006241;  --sucesso-claro: #D4E9E2;
+
+  /* ---- LINHA (hairline quente, no lugar do traço preto pesado) ---- */
+  --linha-cor:        rgba(33, 26, 18, 0.12);
+  --linha-cor-forte:  rgba(33, 26, 18, 0.20);
+  --linha-cor-fraca:  rgba(33, 26, 18, 0.07);
+  --linha-marca:      rgba(33, 26, 18, 0.32);  /* traço marcante de gravura — bordas de cartões/controles */
+
+  /* ---- AREIA · superfície tátil para botões (no lugar do branco) ---- */
+  --areia:        #EADCC0;
+  --areia-fundo:  #DDCBA6;  /* hover / pressão */
+
+  /* ============================================================
+     ALIASES SEMÂNTICOS — use estes na UI
+     ============================================================ */
+  --bg-app:        var(--papel);
+  --surface-card:  var(--papel-branco);
+  --surface-soft:  var(--papel-claro);
+  --surface-sunk:  var(--papel-fundo);
+  --surface-sand:  var(--areia);
+
+  --text-strong:   var(--tinta);
+  --text-body:     var(--tinta-suave);
+  --text-muted:    var(--tinta-fraca);
+  --text-on-barro: #FFF7EF;
+  --text-on-ink:   var(--papel);
+
+  --action:        var(--barro);
+  --action-press:  var(--barro-fundo);
+  --link:          var(--indigo);
+
+  --border:        var(--linha-cor);
+  --border-strong: var(--linha-cor-forte);
+  --border-faint:  var(--linha-cor-fraca);
+  --border-mark:   var(--linha-marca);
+
+  --focus-ring:    var(--barro);
+}

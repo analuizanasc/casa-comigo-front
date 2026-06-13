@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Casa Comigo · Relatórios</title>
+<link rel="stylesheet" href="casa-comigo.css">
+<style>
+  body { overflow-x: hidden; }
+  .duo { display:grid; grid-template-columns: minmax(0,1fr) minmax(0,1fr); gap:18px; margin-top:18px; }
+  .balanco-row { display:flex; align-items:center; gap:12px; }
+  .balanco-row .rot { width:42px; font-size:13px; color:var(--tinta-fraca); font-weight:700; text-transform:uppercase; letter-spacing:.06em; }
+  .balanco-row .barra { flex:1; }
+  .balanco-row strong { width:56px; text-align:right; font-variant-numeric:tabular-nums; }
+  .desvio { margin-top:14px; font-weight:700; font-size:14px; }
+  .stat-grade { display:grid; grid-template-columns: repeat(4,minmax(0,1fr)); gap:8px; margin-top:16px; text-align:center; }
+  .stat-grade .num { font-family:var(--fonte-display); font-size:28px; line-height:1; }
+  .stat-grade .lab { font-size:11px; color:var(--tinta-fraca); text-transform:uppercase; letter-spacing:.03em; margin-top:6px; overflow-wrap:anywhere; }
+  @media (max-width:720px){ .duo{ grid-template-columns:1fr; } }
+</style>
+</head>
+<body>
+<div class="app">
+  <aside class="sidebar">
+    <div class="marca">
+      <span class="sol"></span>
+      <div><div class="nome">Casa Comigo</div><div class="sub">ap 404</div></div>
+    </div>
+    <nav class="nav">
+      <a class="nav-item" href="Casa Comigo - Cronograma.html"><span class="ic">📅</span> Cronograma</a>
+      <a class="nav-item" href="Casa Comigo - Catalogo.html"><span class="ic">📋</span> Catálogo</a>
+      <a class="nav-item" href="Casa Comigo - Preferencias.html"><span class="ic">❤️</span> Preferências</a>
+      <a class="nav-item" href="Casa Comigo - Membros.html"><span class="ic">👥</span> Membros</a>
+      <a class="nav-item ativo"><span class="ic">📊</span> Relatórios</a>
+    </nav>
+    <div class="sidebar-rodape">
+      <a class="trocar" href="#">← Trocar de casa</a>
+      <div class="usuario">
+        <span class="avatar avatar--sm">Q</span>
+        <div><div style="font-weight:700; font-size:14px;">qa</div>
+          <a class="meta" href="#" style="text-decoration:none; color:var(--barro); font-weight:600;">Sair</a></div>
+      </div>
+    </div>
+  </aside>
+
+  <main class="conteudo">
+    <div class="topo">
+      <div>
+        <div class="eyebrow">A conta do mutirão</div>
+        <h1 class="titulo">Relatórios</h1>
+        <p class="meta" style="margin-top:8px; font-size:15px;">Desempenho e balanceamento da casa</p>
+      </div>
+    </div>
+
+    <div class="filtros">
+      <div class="campo-wrap"><label class="rotulo">De</label><input class="campo" type="date" value="2026-05-08"></div>
+      <div class="campo-wrap"><label class="rotulo">Até</label><input class="campo" type="date" value="2026-06-07"></div>
+    </div>
+
+    <!-- BALANCEAMENTO -->
+    <h2 class="secao-titulo">Balanceamento de esforço</h2>
+    <div class="aviso aviso--ok">
+      <span class="ic-aviso">✓</span>
+      <span>Dentro da tolerância — Tolerância: ±10pp</span>
+      <span class="status status--pendente" style="margin-left:6px;">Igualitária</span>
+    </div>
+
+    <div class="duo">
+      <div class="bloco bloco-pad">
+        <strong style="font-size:18px;">qa</strong>
+        <div style="margin-top:14px; display:flex; flex-direction:column; gap:12px;">
+          <div class="balanco-row"><span class="rot">Alvo</span><div class="barra barra--alvo"><span style="width:50%"></span></div><strong>50,0%</strong></div>
+          <div class="balanco-row"><span class="rot">Real</span><div class="barra barra--verde"><span style="width:54.5%"></span></div><strong>54,5%</strong></div>
+        </div>
+        <div class="desvio" style="color:var(--barro);">Desvio: +4,5pp</div>
+      </div>
+
+      <div class="bloco bloco-pad">
+        <strong style="font-size:18px;">Marcelo</strong>
+        <div style="margin-top:14px; display:flex; flex-direction:column; gap:12px;">
+          <div class="balanco-row"><span class="rot">Alvo</span><div class="barra barra--alvo"><span style="width:50%"></span></div><strong>50,0%</strong></div>
+          <div class="balanco-row"><span class="rot">Real</span><div class="barra barra--verde"><span style="width:45.5%"></span></div><strong>45,5%</strong></div>
+        </div>
+        <div class="desvio" style="color:var(--indigo);">Desvio: −4,5pp</div>
+      </div>
+    </div>
+
+    <!-- DESEMPENHO -->
+    <h2 class="secao-titulo">Desempenho por morador</h2>
+    <div class="duo">
+      <div class="bloco bloco-pad">
+        <div class="linha" style="gap:14px; justify-content:space-between;">
+          <div class="linha" style="gap:14px;">
+            <span class="avatar">Q</span>
+            <div><strong style="font-size:17px;">qa</strong><div class="meta">3 tarefas atribuídas</div></div>
+          </div>
+          <div class="anel" style="--p:0%;"><span>0%</span></div>
+        </div>
+        <hr class="regua" style="margin:16px 0;">
+        <div class="stat-grade">
+          <div><div class="num" style="color:var(--verde);">0</div><div class="lab">Concluídas</div></div>
+          <div><div class="num" style="color:var(--ocre);">3</div><div class="lab">Pendentes</div></div>
+          <div><div class="num" style="color:var(--vermelho);">0</div><div class="lab">Atrasadas</div></div>
+          <div><div class="num" style="color:var(--indigo);">0</div><div class="lab">Redistribuídas</div></div>
+        </div>
+      </div>
+
+      <div class="bloco bloco-pad">
+        <div class="linha" style="gap:14px; justify-content:space-between;">
+          <div class="linha" style="gap:14px;">
+            <span class="avatar avatar--indigo">M</span>
+            <div><strong style="font-size:17px;">Marcelo</strong><div class="meta">2 tarefas atribuídas</div></div>
+          </div>
+          <div class="anel" style="--p:0%;"><span>0%</span></div>
+        </div>
+        <hr class="regua" style="margin:16px 0;">
+        <div class="stat-grade">
+          <div><div class="num" style="color:var(--verde);">0</div><div class="lab">Concluídas</div></div>
+          <div><div class="num" style="color:var(--ocre);">2</div><div class="lab">Pendentes</div></div>
+          <div><div class="num" style="color:var(--vermelho);">0</div><div class="lab">Atrasadas</div></div>
+          <div><div class="num" style="color:var(--indigo);">0</div><div class="lab">Redistribuídas</div></div>
+        </div>
+      </div>
+    </div>
+  </main>
+</div>
+</body>
+</html>

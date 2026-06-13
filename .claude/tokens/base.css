@@ -1,0 +1,42 @@
+/* ============================================================
+   CASA COMIGO · BASE
+   Reset suave + canvas de papel com grão de impressão.
+   ============================================================ */
+
+*, *::before, *::after { box-sizing: border-box; }
+
+html { -webkit-font-smoothing: antialiased; text-rendering: optimizeLegibility; }
+
+body {
+  margin: 0;
+  font-family: var(--font-sans);
+  font-size: var(--text-base);
+  line-height: var(--leading-body);
+  color: var(--text-strong);
+  background-color: var(--bg-app);
+  /* grão sutil de papel de cordel */
+  background-image:
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
+}
+
+h1, h2, h3, h4, h5, h6 { margin: 0; }
+
+/* ---- helpers tipográficos reusáveis ---- */
+.cc-display {
+  font-family: var(--font-display);
+  font-weight: var(--weight-regular);
+  text-transform: uppercase;
+  letter-spacing: var(--tracking-cartaz);
+  line-height: var(--leading-tight);
+  margin: 0;
+}
+.cc-eyebrow {
+  font-family: var(--font-sans);
+  text-transform: uppercase;
+  font-weight: var(--weight-bold);
+  font-size: var(--text-xs);
+  letter-spacing: var(--tracking-eyebrow);
+  color: var(--action);
+}
+.cc-lead { font-size: var(--text-lg); line-height: 1.5; color: var(--text-body); }
+.cc-verso { font-style: italic; font-weight: var(--weight-medium); color: var(--text-body); }

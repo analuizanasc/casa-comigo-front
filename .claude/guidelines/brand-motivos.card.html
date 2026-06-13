@@ -1,0 +1,21 @@
+<!-- @dsCard group="Brand" viewport="700x180" name="Motivos de gravura" subtitle="Sol, serrilha, hachura e losango — acentos de marca" -->
+<!DOCTYPE html>
+<html lang="pt-BR"><head><meta charset="UTF-8">
+<link rel="stylesheet" href="../styles.css">
+<style>
+  body { margin:0; padding:24px; background:var(--bg-app); font-family:var(--font-sans); }
+  .grid { display:grid; grid-template-columns:repeat(4,1fr); gap:14px; }
+  .cell { border:1px solid var(--border); border-radius:var(--radius-md); overflow:hidden; box-shadow:var(--shadow-sm); background:var(--surface-card); }
+  .view { height:88px; display:grid; place-items:center; background:var(--surface-soft); }
+  .cap { padding:9px 11px; font-size:11.5px; }
+  .cap b { display:block; }
+  .cap span { color:var(--text-muted); }
+</style></head>
+<body>
+  <div class="grid">
+    <div class="cell"><div class="view"><span class="cc-sol" style="width:56px;height:56px;"></span></div><div class="cap"><b>Sol do sertão</b><span>brasão / marca</span></div></div>
+    <div class="cell"><div class="view" style="flex-direction:column; gap:12px; display:flex; justify-content:center;"><div class="cc-serrilha" style="width:80%;"></div><div class="cc-serrilha cc-serrilha--barro" style="width:80%;"></div></div><div class="cap"><b>Serrilha</b><span>borda de cordel</span></div></div>
+    <div class="cell"><div class="cc-hachura view"></div><div class="cap"><b>Hachura</b><span>sombra de buril</span></div></div>
+    <div class="cell"><div class="cc-losango view"></div><div class="cap"><b>Losango</b><span>grade de diamantes</span></div></div>
+  </div>
+</body></html>

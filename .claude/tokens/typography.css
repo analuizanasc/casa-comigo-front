@@ -1,0 +1,45 @@
+/* ============================================================
+   CASA COMIGO · TIPOGRAFIA
+   Anton (cartaz de cordel) + Archivo (corpo e interface)
+   ============================================================ */
+
+@import url('https://fonts.googleapis.com/css2?family=Anton&family=Archivo:ital,wght@0,400;0,500;0,600;0,700;0,800;1,400;1,500;1,600&display=swap');
+
+:root {
+  --font-display: 'Anton', 'Archivo Black', sans-serif;
+  --font-sans:    'Archivo', system-ui, -apple-system, sans-serif;
+
+  /* escala display — cartaz (Anton, caixa-alta) */
+  --display-xl: clamp(48px, 8vw, 104px);  /* @kind font */
+  --display-lg: clamp(38px, 6vw, 68px);   /* @kind font */
+  --display-md: clamp(28px, 4vw, 44px);   /* @kind font */
+  --display-sm: clamp(22px, 3vw, 30px);   /* @kind font */
+
+  /* escala texto — Archivo */
+  --text-2xl: 30px;
+  --text-xl:  24px;
+  --text-lg:  20px;
+  --text-md:  17px;
+  --text-base:16px;
+  --text-sm:  14px;
+  --text-xs:  12.5px;
+
+  --leading-tight: 1.1;
+  --leading-snug:  1.3;
+  --leading-body:  1.55;
+
+  --weight-regular: 400;
+  --weight-medium:  500;
+  --weight-semi:    600;
+  --weight-bold:    700;
+
+  --tracking-cartaz:  0.01em;   /* display caixa-alta */
+  --tracking-eyebrow: 0.22em;   /* sobrancelhas */
+  --tracking-tight:  -0.01em;   /* títulos sans */
+}
+
+/* aliases de uso ---------------------------------------------------- */
+:root {
+  --type-display:  var(--font-display);
+  --type-body:     var(--font-sans);
+}
