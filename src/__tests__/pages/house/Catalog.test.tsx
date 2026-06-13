@@ -321,4 +321,101 @@ describe('Catalog page', () => {
     fireEvent.click(screen.getByRole('button', { name: 'Fechar' }));
     expect(screen.queryByRole('dialog')).not.toBeInTheDocument();
   });
+
+  it('disables Criar button when description exceeds 500 character limit', async () => {
+    renderCatalog();
+    await waitFor(() => screen.getByText('Varrer sala'));
+    fireEvent.click(screen.getByText('+ Nova tarefa'));
+
+    fireEvent.change(screen.getByLabelText('Descrição (opcional)'), { target: { value: 'a'.repeat(501) } });
+
+    expect(screen.getByRole('button', { name: 'Criar' })).toBeDisabled();
+  });
+
+  it('shows error toast and blocks API call when form is submitted programmatically with over-limit description', async () => {
+    const { container } = renderCatalog();
+    await waitFor(() => screen.getByText('Varrer sala'));
+    fireEvent.click(screen.getByText('+ Nova tarefa'));
+
+    fireEvent.change(screen.getByLabelText('Nome da tarefa'), { target: { value: 'X' } });
+    fireEvent.change(screen.getByLabelText('Descrição (opcional)'), { target: { value: 'a'.repeat(501) } });
+
+    // Bypass disabled button — simulates programmatic form submission
+    fireEvent.submit(container.querySelector('#task-form')!);
+
+    await waitFor(() => expect(mockToast).toHaveBeenCalledWith(
+      'A descrição não pode ter mais de 500 caracteres.',
+      'error'
+    ));
+    expect(mockCreateTask).not.toHaveBeenCalled();
+  });
+
+  it('displays custom frequency format (N×/unit) for tasks with frequency_count and frequency_unit', async () => {
+    const customFreqTask: Task = {
+      ...task1, id: 't3', name: 'Tarefa Personalizada',
+      frequency_count: 2, frequency_unit: 'week',
+    };
+    mockListTasks.mockResolvedValue({ data: [customFreqTask] } as any);
+    renderCatalog();
+    await waitFor(() => expect(screen.getByText('2×/sem.')).toBeInTheDocument());
+  });
+
+  it('opens edit modal in custom frequency mode when task has frequency_count set', async () => {
+    const customFreqTask: Task = {
+      ...task1, id: 't3', name: 'Freq Custom',
+      frequency_count: 3, frequency_unit: 'month',
+    };
+    mockListTasks.mockResolvedValue({ data: [customFreqTask] } as any);
+    renderCatalog();
+    await waitFor(() => screen.getByText('Freq Custom'));
+
+    fireEvent.click(screen.getByRole('button', { name: 'Editar' }));
+
+    expect(screen.getByLabelText('Quantas vezes')).toBeInTheDocument();
+    expect(screen.getByLabelText('Período')).toBeInTheDocument();
+    expect(screen.queryByLabelText('Frequência')).not.toBeInTheDocument();
+  });
+
+  it('switches to custom frequency mode when Personalizada button is clicked', async () => {
+    renderCatalog();
+    await waitFor(() => screen.getByText('Varrer sala'));
+    fireEvent.click(screen.getByText('+ Nova tarefa'));
+
+    expect(screen.getByLabelText('Frequência')).toBeInTheDocument();
+    fireEvent.click(screen.getByText('Personalizada'));
+
+    expect(screen.getByLabelText('Quantas vezes')).toBeInTheDocument();
+    expect(screen.getByLabelText('Período')).toBeInTheDocument();
+    expect(screen.queryByLabelText('Frequência')).not.toBeInTheDocument();
+  });
+
+  it('switches back to standard frequency when Frequência padrão button is clicked', async () => {
+    renderCatalog();
+    await waitFor(() => screen.getByText('Varrer sala'));
+    fireEvent.click(screen.getByText('+ Nova tarefa'));
+
+    fireEvent.click(screen.getByText('Personalizada'));
+    expect(screen.getByLabelText('Quantas vezes')).toBeInTheDocument();
+
+    fireEvent.click(screen.getByText('Frequência padrão'));
+    expect(screen.queryByLabelText('Quantas vezes')).not.toBeInTheDocument();
+    expect(screen.getByLabelText('Frequência')).toBeInTheDocument();
+  });
+
+  it('creates task with custom frequency payload when Personalizada mode is used', async () => {
+    renderCatalog();
+    await waitFor(() => screen.getByText('Varrer sala'));
+    fireEvent.click(screen.getByText('+ Nova tarefa'));
+
+    fireEvent.change(screen.getByLabelText('Nome da tarefa'), { target: { value: 'Tarefa Custom' } });
+    fireEvent.click(screen.getByText('Personalizada'));
+    fireEvent.change(screen.getByLabelText('Quantas vezes'), { target: { value: '3' } });
+    fireEvent.change(screen.getByLabelText('Período'), { target: { value: 'month' } });
+    fireEvent.click(screen.getByRole('button', { name: 'Criar' }));
+
+    await waitFor(() => expect(mockCreateTask).toHaveBeenCalledWith(
+      'house-1',
+      expect.objectContaining({ frequency_count: 3, frequency_unit: 'month' })
+    ));
+  });
 });

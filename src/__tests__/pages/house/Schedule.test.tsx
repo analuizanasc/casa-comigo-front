@@ -176,12 +176,12 @@ describe('Schedule page', () => {
     expect(screen.getByText('⚠ Impedimento')).toBeInTheDocument();
   });
 
-  it('does NOT show Concluir/Impedimento for pending task assigned to another user', async () => {
+  it('shows Concluir but NOT Impedimento for pending task assigned to another user', async () => {
     setup(adminHouse, currentUser);
     mockGetSchedule.mockResolvedValue({ data: [otherUserAssignment] } as any);
     renderSchedule();
     await waitFor(() => screen.getByText('Varrer'));
-    expect(screen.queryByText('✓ Concluir')).not.toBeInTheDocument();
+    expect(screen.getByText('✓ Concluir')).toBeInTheDocument();
     expect(screen.queryByText('⚠ Impedimento')).not.toBeInTheDocument();
   });
 
@@ -277,7 +277,7 @@ describe('Schedule page', () => {
     fireEvent.click(screen.getByRole('button', { name: 'Reatribuir' }));
 
     await waitFor(() => expect(mockToast).toHaveBeenCalledWith('Tarefa reatribuída!', 'success'));
-    expect(mockReassignTask).toHaveBeenCalledWith('house-1', 'a1', 'u2');
+    expect(mockReassignTask).toHaveBeenCalledWith('house-1', 'a1', { assigned_to: 'u2' });
   });
 
   it('shows error toast when reassign fails', async () => {
@@ -488,5 +488,215 @@ describe('Schedule page', () => {
         period_end: '2024-03-31',
       })
     );
+  });
+
+  it('shows warning toast when reassign returns a warning message', async () => {
+    setup(adminHouse, currentUser);
+    mockReassignTask.mockResolvedValue({ data: { ...baseAssignment, warning: 'Carga elevada' } } as any);
+    mockGetSchedule.mockResolvedValue({ data: [baseAssignment] } as any);
+    renderSchedule();
+    await waitFor(() => screen.getByText('↩ Reatribuir'));
+
+    fireEvent.click(screen.getByText('↩ Reatribuir'));
+    fireEvent.change(screen.getByLabelText('Novo responsável'), { target: { value: 'u2' } });
+    fireEvent.click(screen.getByRole('button', { name: 'Reatribuir' }));
+
+    await waitFor(() => expect(mockToast).toHaveBeenCalledWith('Carga elevada', 'warning'));
+  });
+
+  it('shows group confirm modal when reassign requires confirmation', async () => {
+    setup(adminHouse, currentUser);
+    const confirmPayload = {
+      requires_confirmation: true,
+      warning: 'Tarefa pertence a um grupo',
+      group_task_count: 3,
+      options: { move_single: 'Mover só esta', move_group: 'Mover todo o grupo' },
+    };
+    mockReassignTask.mockResolvedValueOnce({ data: confirmPayload } as any);
+    mockGetSchedule.mockResolvedValue({ data: [baseAssignment] } as any);
+    renderSchedule();
+    await waitFor(() => screen.getByText('↩ Reatribuir'));
+
+    fireEvent.click(screen.getByText('↩ Reatribuir'));
+    fireEvent.change(screen.getByLabelText('Novo responsável'), { target: { value: 'u2' } });
+    fireEvent.click(screen.getByRole('button', { name: 'Reatribuir' }));
+
+    await waitFor(() => expect(screen.getByText('Tarefa pertence a um grupo')).toBeInTheDocument());
+    expect(screen.getByText('Mover só esta')).toBeInTheDocument();
+    expect(screen.getByText('Mover todo o grupo')).toBeInTheDocument();
+  });
+
+  it('confirms group reassign moving only single task', async () => {
+    setup(adminHouse, currentUser);
+    const confirmPayload = {
+      requires_confirmation: true,
+      warning: 'Grupo detectado',
+      group_task_count: 3,
+      options: { move_single: 'Mover só esta', move_group: 'Mover todo o grupo' },
+    };
+    mockReassignTask
+      .mockResolvedValueOnce({ data: confirmPayload } as any)
+      .mockResolvedValueOnce({ data: baseAssignment } as any);
+    mockGetSchedule.mockResolvedValue({ data: [baseAssignment] } as any);
+    renderSchedule();
+    await waitFor(() => screen.getByText('↩ Reatribuir'));
+
+    fireEvent.click(screen.getByText('↩ Reatribuir'));
+    fireEvent.change(screen.getByLabelText('Novo responsável'), { target: { value: 'u2' } });
+    fireEvent.click(screen.getByRole('button', { name: 'Reatribuir' }));
+
+    await waitFor(() => screen.getByText('Mover só esta'));
+    fireEvent.click(screen.getByText('Mover só esta'));
+
+    await waitFor(() => expect(mockToast).toHaveBeenCalledWith('Tarefa reatribuída!', 'success'));
+    expect(mockReassignTask).toHaveBeenLastCalledWith('house-1', 'a1', {
+      assigned_to: 'u2', force: true, move_group: false,
+    });
+  });
+
+  it('confirms group reassign moving entire group', async () => {
+    setup(adminHouse, currentUser);
+    const confirmPayload = {
+      requires_confirmation: true,
+      warning: 'Grupo detectado',
+      group_task_count: 3,
+      options: { move_single: 'Mover só esta', move_group: 'Mover todo o grupo' },
+    };
+    mockReassignTask
+      .mockResolvedValueOnce({ data: confirmPayload } as any)
+      .mockResolvedValueOnce({ data: baseAssignment } as any);
+    mockGetSchedule.mockResolvedValue({ data: [baseAssignment] } as any);
+    renderSchedule();
+    await waitFor(() => screen.getByText('↩ Reatribuir'));
+
+    fireEvent.click(screen.getByText('↩ Reatribuir'));
+    fireEvent.change(screen.getByLabelText('Novo responsável'), { target: { value: 'u2' } });
+    fireEvent.click(screen.getByRole('button', { name: 'Reatribuir' }));
+
+    await waitFor(() => screen.getByText('Mover todo o grupo'));
+    fireEvent.click(screen.getByText('Mover todo o grupo'));
+
+    await waitFor(() => expect(mockToast).toHaveBeenCalledWith('Tarefa reatribuída!', 'success'));
+    expect(mockReassignTask).toHaveBeenLastCalledWith('house-1', 'a1', {
+      assigned_to: 'u2', force: true, move_group: true,
+    });
+  });
+
+  it('shows error toast when group confirm reassign fails', async () => {
+    setup(adminHouse, currentUser);
+    const confirmPayload = {
+      requires_confirmation: true,
+      warning: 'Grupo detectado',
+      group_task_count: 2,
+      options: { move_single: 'Mover só esta', move_group: 'Mover todo o grupo' },
+    };
+    mockReassignTask
+      .mockResolvedValueOnce({ data: confirmPayload } as any)
+      .mockRejectedValueOnce(new Error('Falha na reatribuição em grupo'));
+    mockGetSchedule.mockResolvedValue({ data: [baseAssignment] } as any);
+    renderSchedule();
+    await waitFor(() => screen.getByText('↩ Reatribuir'));
+
+    fireEvent.click(screen.getByText('↩ Reatribuir'));
+    fireEvent.change(screen.getByLabelText('Novo responsável'), { target: { value: 'u2' } });
+    fireEvent.click(screen.getByRole('button', { name: 'Reatribuir' }));
+
+    await waitFor(() => screen.getByText('Mover só esta'));
+    fireEvent.click(screen.getByText('Mover só esta'));
+
+    await waitFor(() => expect(mockToast).toHaveBeenCalledWith('Falha na reatribuição em grupo', 'error'));
+  });
+
+  it('returns early when reassign is submitted without selecting a member', async () => {
+    setup(adminHouse, currentUser);
+    mockGetSchedule.mockResolvedValue({ data: [baseAssignment] } as any);
+    renderSchedule();
+    await waitFor(() => screen.getByText('↩ Reatribuir'));
+
+    fireEvent.click(screen.getByText('↩ Reatribuir'));
+    fireEvent.click(screen.getByRole('button', { name: 'Reatribuir' }));
+
+    expect(mockReassignTask).not.toHaveBeenCalled();
+  });
+
+  it('hides Impedimento button when user is null', async () => {
+    mockUseHouse.mockReturnValue({ currentHouse: adminHouse, setCurrentHouse: jest.fn() });
+    mockUseAuth.mockReturnValue({ user: null, token: null, isAuthenticated: false, login: jest.fn(), logout: jest.fn() });
+    mockUseToast.mockReturnValue(mockToast);
+    mockListMembers.mockResolvedValue({ data: [member] } as any);
+    mockGetSchedule.mockResolvedValue({ data: [baseAssignment] } as any);
+    renderSchedule();
+
+    await waitFor(() => screen.getByText('Varrer'));
+    expect(screen.queryByText('⚠ Impedimento')).not.toBeInTheDocument();
+  });
+
+  it('closes group confirm modal when X (Fechar) button is clicked', async () => {
+    setup(adminHouse, currentUser);
+    const confirmPayload = {
+      requires_confirmation: true,
+      warning: 'Grupo detectado',
+      group_task_count: 2,
+      options: { move_single: 'Mover só esta', move_group: 'Mover todo o grupo' },
+    };
+    mockReassignTask.mockResolvedValueOnce({ data: confirmPayload } as any);
+    mockGetSchedule.mockResolvedValue({ data: [baseAssignment] } as any);
+    renderSchedule();
+    await waitFor(() => screen.getByText('↩ Reatribuir'));
+
+    fireEvent.click(screen.getByText('↩ Reatribuir'));
+    fireEvent.change(screen.getByLabelText('Novo responsável'), { target: { value: 'u2' } });
+    fireEvent.click(screen.getByRole('button', { name: 'Reatribuir' }));
+
+    await waitFor(() => screen.getByText('Mover só esta'));
+    fireEvent.click(screen.getByRole('button', { name: 'Fechar' }));
+    expect(screen.queryByText('Mover só esta')).not.toBeInTheDocument();
+  });
+
+  it('closes group confirm modal when Cancelar is clicked', async () => {
+    setup(adminHouse, currentUser);
+    const confirmPayload = {
+      requires_confirmation: true,
+      warning: 'Grupo detectado',
+      group_task_count: 2,
+      options: { move_single: 'Mover só esta', move_group: 'Mover todo o grupo' },
+    };
+    mockReassignTask.mockResolvedValueOnce({ data: confirmPayload } as any);
+    mockGetSchedule.mockResolvedValue({ data: [baseAssignment] } as any);
+    renderSchedule();
+    await waitFor(() => screen.getByText('↩ Reatribuir'));
+
+    fireEvent.click(screen.getByText('↩ Reatribuir'));
+    fireEvent.change(screen.getByLabelText('Novo responsável'), { target: { value: 'u2' } });
+    fireEvent.click(screen.getByRole('button', { name: 'Reatribuir' }));
+
+    await waitFor(() => screen.getByText('Mover só esta'));
+    fireEvent.click(screen.getByRole('button', { name: 'Cancelar' }));
+    expect(screen.queryByText('Mover só esta')).not.toBeInTheDocument();
+  });
+
+  it('shows warning toast when group confirm reassign returns a warning', async () => {
+    setup(adminHouse, currentUser);
+    const confirmPayload = {
+      requires_confirmation: true,
+      warning: 'Grupo detectado',
+      group_task_count: 2,
+      options: { move_single: 'Mover só esta', move_group: 'Mover todo o grupo' },
+    };
+    mockReassignTask
+      .mockResolvedValueOnce({ data: confirmPayload } as any)
+      .mockResolvedValueOnce({ data: { ...baseAssignment, warning: 'Atenção: carga alta' } } as any);
+    mockGetSchedule.mockResolvedValue({ data: [baseAssignment] } as any);
+    renderSchedule();
+    await waitFor(() => screen.getByText('↩ Reatribuir'));
+
+    fireEvent.click(screen.getByText('↩ Reatribuir'));
+    fireEvent.change(screen.getByLabelText('Novo responsável'), { target: { value: 'u2' } });
+    fireEvent.click(screen.getByRole('button', { name: 'Reatribuir' }));
+
+    await waitFor(() => screen.getByText('Mover só esta'));
+    fireEvent.click(screen.getByText('Mover só esta'));
+
+    await waitFor(() => expect(mockToast).toHaveBeenCalledWith('Atenção: carga alta', 'warning'));
   });
 });

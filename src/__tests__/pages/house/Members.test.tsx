@@ -133,7 +133,7 @@ describe('Members page', () => {
     fireEvent.change(screen.getByLabelText('E-mail do morador'), { target: { value: 'novo@test.com' } });
     fireEvent.click(screen.getByRole('button', { name: 'Convidar' }));
 
-    await waitFor(() => expect(mockToast).toHaveBeenCalledWith('Membro convidado!', 'success'));
+    await waitFor(() => expect(mockToast).toHaveBeenCalledWith('Convite enviado! O usuário verá a notificação na tela inicial.', 'success'));
     expect(mockInviteMember).toHaveBeenCalledWith('house-1', 'novo@test.com');
   });
 
@@ -286,5 +286,16 @@ describe('Members page', () => {
     expect(screen.getByText('Editar — Alice')).toBeInTheDocument();
     fireEvent.click(screen.getByRole('button', { name: 'Fechar' }));
     expect(screen.queryByText('Editar — Alice')).not.toBeInTheDocument();
+  });
+
+  it('populates edit form with empty weight field for member with null weight_percentage', async () => {
+    renderMembers();
+    await waitFor(() => screen.getAllByText('Alice')[0]);
+
+    const editBtns = screen.getAllByRole('button', { name: 'Editar' });
+    fireEvent.click(editBtns[1]); // Bob has null weight_percentage
+
+    expect(screen.getByText('Editar — Bob')).toBeInTheDocument();
+    expect(screen.getByLabelText('Peso de distribuição (%)')).toHaveValue(null);
   });
 });
