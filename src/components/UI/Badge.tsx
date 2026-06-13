@@ -1,3 +1,4 @@
+/* eslint-disable react-refresh/only-export-components */
 type BadgeVariant =
   | 'leve' | 'medio' | 'pesado'
   | 'pendente' | 'concluida' | 'atrasada' | 'impedida'

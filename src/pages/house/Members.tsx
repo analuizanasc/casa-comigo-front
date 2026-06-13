@@ -1,4 +1,4 @@
-import { useState, useEffect, type FormEvent } from 'react';
+import { useState, useEffect, useCallback, type FormEvent } from 'react';
 import { useParams } from 'react-router-dom';
 import {
   listMembers,
@@ -38,7 +38,7 @@ export function Members() {
 
   const isAdmin = currentHouse?.role === 'admin';
 
-  const fetchData = async () => {
+  const fetchData = useCallback(async () => {
     if (!houseId) return;
     try {
       const [membersRes, weightsRes] = await Promise.all([
@@ -47,14 +47,14 @@ export function Members() {
       ]);
       setMembers(membersRes.data);
       if (weightsRes) setWeights(weightsRes.data);
-    } catch (err: any) {
-      toast(err.message, 'error');
+    } catch (err) {
+      toast(err instanceof Error ? err.message : 'Ocorreu um erro.', 'error');
     } finally {
       setLoading(false);
     }
-  };
+  }, [houseId, isAdmin, toast]);
 
-  useEffect(() => { fetchData(); }, [houseId]);
+  useEffect(() => { fetchData(); }, [fetchData]);
 
   const handleInvite = async (e: FormEvent) => {
     e.preventDefault();
@@ -65,8 +65,8 @@ export function Members() {
       toast('Convite enviado! O usuário verá a notificação na tela inicial.', 'success');
       setInviteOpen(false);
       setInviteEmail('');
-    } catch (err: any) {
-      toast(err.message, 'error');
+    } catch (err) {
+      toast(err instanceof Error ? err.message : 'Ocorreu um erro.', 'error');
     } finally {
       setSaving(false);
     }
@@ -84,7 +84,7 @@ export function Members() {
     if (!houseId || !editMember) return;
     setSaving(true);
     try {
-      const promises: Promise<any>[] = [];
+      const promises: Promise<unknown>[] = [];
 
       if (editRole !== editMember.role) {
         promises.push(updateRole(houseId, editMember.user_id, editRole));
@@ -100,8 +100,8 @@ export function Members() {
       toast('Membro atualizado!', 'success');
       setEditMember(null);
       fetchData();
-    } catch (err: any) {
-      toast(err.message, 'error');
+    } catch (err) {
+      toast(err instanceof Error ? err.message : 'Ocorreu um erro.', 'error');
     } finally {
       setSaving(false);
     }
@@ -114,8 +114,8 @@ export function Members() {
       await removeMember(houseId, member.user_id);
       toast('Membro removido.', 'success');
       fetchData();
-    } catch (err: any) {
-      toast(err.message, 'error');
+    } catch (err) {
+      toast(err instanceof Error ? err.message : 'Ocorreu um erro.', 'error');
     }
   };
 

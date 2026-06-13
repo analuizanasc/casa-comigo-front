@@ -1,4 +1,4 @@
-import { useState, useEffect, type FormEvent } from 'react';
+import { useState, useEffect, useCallback, type FormEvent } from 'react';
 import { useParams } from 'react-router-dom';
 import {
   listTasks,
@@ -77,19 +77,19 @@ export function Catalog() {
   const [depOpen, setDepOpen] = useState(false);
   const [depTarget, setDepTarget] = useState('');
 
-  const fetchTasks = async () => {
+  const fetchTasks = useCallback(async () => {
     if (!houseId) return;
     try {
       const { data } = await listTasks(houseId);
       setTasks(data);
-    } catch (err: any) {
-      toast(err.message, 'error');
+    } catch (err) {
+      toast(err instanceof Error ? err.message : 'Ocorreu um erro.', 'error');
     } finally {
       setLoading(false);
     }
-  };
+  }, [houseId, toast]);
 
-  useEffect(() => { fetchTasks(); }, [houseId]);
+  useEffect(() => { fetchTasks(); }, [fetchTasks]);
 
   const openCreate = () => {
     setEditingTask(null);
@@ -146,8 +146,8 @@ export function Catalog() {
       }
       setFormOpen(false);
       fetchTasks();
-    } catch (err: any) {
-      toast(err.message, 'error');
+    } catch (err) {
+      toast(err instanceof Error ? err.message : 'Ocorreu um erro.', 'error');
     } finally {
       setSaving(false);
     }
@@ -160,8 +160,8 @@ export function Catalog() {
       await deleteTask(houseId, task.id);
       toast('Tarefa removida.', 'success');
       fetchTasks();
-    } catch (err: any) {
-      toast(err.message, 'error');
+    } catch (err) {
+      toast(err instanceof Error ? err.message : 'Ocorreu um erro.', 'error');
     }
   };
 
@@ -172,8 +172,8 @@ export function Catalog() {
       setDepTask(data);
       setDepTarget('');
       setDepOpen(true);
-    } catch (err: any) {
-      toast(err.message, 'error');
+    } catch (err) {
+      toast(err instanceof Error ? err.message : 'Ocorreu um erro.', 'error');
     }
   };
 
@@ -187,8 +187,8 @@ export function Catalog() {
       const { data } = await getTask(houseId, depTask.id);
       setDepTask(data);
       setDepTarget('');
-    } catch (err: any) {
-      toast(err.message, 'error');
+    } catch (err) {
+      toast(err instanceof Error ? err.message : 'Ocorreu um erro.', 'error');
     } finally {
       setSaving(false);
     }
@@ -201,8 +201,8 @@ export function Catalog() {
       toast('Dependência removida.', 'success');
       const { data } = await getTask(houseId, depTask.id);
       setDepTask(data);
-    } catch (err: any) {
-      toast(err.message, 'error');
+    } catch (err) {
+      toast(err instanceof Error ? err.message : 'Ocorreu um erro.', 'error');
     }
   };
 

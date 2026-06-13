@@ -18,6 +18,7 @@ export function HouseProvider({ children }: { children: ReactNode }) {
   );
 }
 
+// eslint-disable-next-line react-refresh/only-export-components
 export function useHouse() {
   const ctx = useContext(HouseContext);
   if (!ctx) throw new Error('useHouse must be used within HouseProvider');

@@ -1,4 +1,4 @@
-import { useState, useEffect, type FormEvent } from 'react';
+import { useState, useEffect, useCallback, type FormEvent } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { getMyHouses, createHouse, joinHouse } from '../api/houses';
 import { listInvitations, acceptInvitation, rejectInvitation } from '../api/invitations';
@@ -65,7 +65,7 @@ export function Houses() {
   const [inviteSaving, setInviteSaving] = useState<string | null>(null);
   const [advancingOnboarding, setAdvancingOnboarding] = useState(false);
 
-  const fetchAll = async () => {
+  const fetchAll = useCallback(async () => {
     try {
       const [housesRes, invRes, notifRes, onbRes] = await Promise.all([
         getMyHouses(),
@@ -77,14 +77,14 @@ export function Houses() {
       setInvitations(invRes.data);
       setNotifications(notifRes.data);
       if (onbRes) setOnboarding(onbRes.data);
-    } catch (err: any) {
-      toast(err.message, 'error');
+    } catch (err) {
+      toast(err instanceof Error ? err.message : 'Ocorreu um erro.', 'error');
     } finally {
       setLoading(false);
     }
-  };
+  }, [toast]);
 
-  useEffect(() => { fetchAll(); }, []);
+  useEffect(() => { fetchAll(); }, [fetchAll]);
 
   const handleEnter = (house: HouseSummary) => {
     setCurrentHouse(house);
@@ -100,8 +100,8 @@ export function Houses() {
       setCreateOpen(false);
       setCreateName('');
       fetchAll();
-    } catch (err: any) {
-      toast(err.message, 'error');
+    } catch (err) {
+      toast(err instanceof Error ? err.message : 'Ocorreu um erro.', 'error');
     } finally {
       setSaving(false);
     }
@@ -116,8 +116,8 @@ export function Houses() {
       setJoinOpen(false);
       setInviteCode('');
       fetchAll();
-    } catch (err: any) {
-      toast(err.message, 'error');
+    } catch (err) {
+      toast(err instanceof Error ? err.message : 'Ocorreu um erro.', 'error');
     } finally {
       setSaving(false);
     }
@@ -129,8 +129,8 @@ export function Houses() {
       const { data } = await acceptInvitation(inv.id);
       toast(data.message, 'success');
       fetchAll();
-    } catch (err: any) {
-      toast(err.message, 'error');
+    } catch (err) {
+      toast(err instanceof Error ? err.message : 'Ocorreu um erro.', 'error');
     } finally {
       setInviteSaving(null);
     }
@@ -142,8 +142,8 @@ export function Houses() {
       await rejectInvitation(inv.id);
       toast('Convite recusado.', 'success');
       setInvitations((prev) => prev.filter((i) => i.id !== inv.id));
-    } catch (err: any) {
-      toast(err.message, 'error');
+    } catch (err) {
+      toast(err instanceof Error ? err.message : 'Ocorreu um erro.', 'error');
     } finally {
       setInviteSaving(null);
     }
@@ -153,8 +153,8 @@ export function Houses() {
     try {
       await markAllRead();
       setNotifications((prev) => prev.map((n) => ({ ...n, is_read: true })));
-    } catch (err: any) {
-      toast(err.message, 'error');
+    } catch (err) {
+      toast(err instanceof Error ? err.message : 'Ocorreu um erro.', 'error');
     }
   };
 

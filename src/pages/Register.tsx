@@ -22,8 +22,8 @@ export function Register() {
       await registerApi(form.name, form.email, form.password);
       toast('Conta criada! Faça login para continuar.', 'success');
       navigate('/login');
-    } catch (err: any) {
-      toast(err.message, 'error');
+    } catch (err) {
+      toast(err instanceof Error ? err.message : 'Ocorreu um erro.', 'error');
     } finally {
       setLoading(false);
     }
