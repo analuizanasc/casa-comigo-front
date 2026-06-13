@@ -1,4 +1,4 @@
-import { useState, useEffect, type FormEvent } from 'react';
+import { useState, useEffect, useCallback, type FormEvent } from 'react';
 import { useParams } from 'react-router-dom';
 import { getSchedule, completeTask, reportImpediment, reassignTask, distribute } from '../../api/schedule';
 import { listMembers } from '../../api/members';
@@ -55,7 +55,7 @@ export function Schedule() {
 
   const [saving, setSaving] = useState(false);
 
-  const fetchData = async () => {
+  const fetchData = useCallback(async () => {
     if (!houseId) return;
     setLoading(true);
     try {
@@ -67,14 +67,14 @@ export function Schedule() {
       ]);
       setAssignments(schedRes.data);
       if (membersRes) setMembers(membersRes.data);
-    } catch (err: any) {
-      toast(err.message, 'error');
+    } catch (err) {
+      toast(err instanceof Error ? err.message : 'Ocorreu um erro.', 'error');
     } finally {
       setLoading(false);
     }
-  };
+  }, [houseId, isAdmin, isCatalogManager, dateFrom, dateTo, filterMember, toast]);
 
-  useEffect(() => { fetchData(); }, [houseId, dateFrom, dateTo, filterMember]);
+  useEffect(() => { fetchData(); }, [fetchData]);
 
   const handleComplete = async (e: FormEvent) => {
     e.preventDefault();
@@ -86,8 +86,8 @@ export function Schedule() {
       setCompleteOpen(false);
       setCompleteNotes('');
       fetchData();
-    } catch (err: any) {
-      toast(err.message, 'error');
+    } catch (err) {
+      toast(err instanceof Error ? err.message : 'Ocorreu um erro.', 'error');
     } finally {
       setSaving(false);
     }
@@ -100,8 +100,8 @@ export function Schedule() {
       const { data } = await reportImpediment(houseId, assignment.id);
       toast(data.message, 'success');
       fetchData();
-    } catch (err: any) {
-      toast(err.message, 'error');
+    } catch (err) {
+      toast(err instanceof Error ? err.message : 'Ocorreu um erro.', 'error');
     }
   };
 
@@ -124,8 +124,8 @@ export function Schedule() {
       }
       setReassignOpen(false);
       fetchData();
-    } catch (err: any) {
-      toast(err.message, 'error');
+    } catch (err) {
+      toast(err instanceof Error ? err.message : 'Ocorreu um erro.', 'error');
     } finally {
       setSaving(false);
     }
@@ -148,8 +148,8 @@ export function Schedule() {
       }
       setGroupConfirm(null);
       fetchData();
-    } catch (err: any) {
-      toast(err.message, 'error');
+    } catch (err) {
+      toast(err instanceof Error ? err.message : 'Ocorreu um erro.', 'error');
     } finally {
       setSaving(false);
     }
@@ -163,8 +163,8 @@ export function Schedule() {
       const { data } = await distribute(houseId, { period_start: distStart, period_end: distEnd });
       setDistResult(data);
       fetchData();
-    } catch (err: any) {
-      toast(err.message, 'error');
+    } catch (err) {
+      toast(err instanceof Error ? err.message : 'Ocorreu um erro.', 'error');
     } finally {
       setDistributing(false);
     }

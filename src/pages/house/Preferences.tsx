@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import { useParams } from 'react-router-dom';
 import { listPreferences, setPreference } from '../../api/preferences';
 import { useToast } from '../../components/UI/Toast';
@@ -23,19 +23,19 @@ export function Preferences() {
   const [updating, setUpdating] = useState<string | null>(null);
   const [search, setSearch] = useState('');
 
-  const fetchPreferences = async () => {
+  const fetchPreferences = useCallback(async () => {
     if (!houseId) return;
     try {
       const { data } = await listPreferences(houseId);
       setPreferences(data);
-    } catch (err: any) {
-      toast(err.message, 'error');
+    } catch (err) {
+      toast(err instanceof Error ? err.message : 'Ocorreu um erro.', 'error');
     } finally {
       setLoading(false);
     }
-  };
+  }, [houseId, toast]);
 
-  useEffect(() => { fetchPreferences(); }, [houseId]);
+  useEffect(() => { fetchPreferences(); }, [fetchPreferences]);
 
   const handlePreference = async (taskId: string, preference_level: PreferenceLevel) => {
     if (!houseId) return;
@@ -49,8 +49,8 @@ export function Preferences() {
       setPreferences((prev) =>
         prev.map((p) => p.task_id === taskId ? { ...p, preference_level } : p)
       );
-    } catch (err: any) {
-      toast(err.message, 'error');
+    } catch (err) {
+      toast(err instanceof Error ? err.message : 'Ocorreu um erro.', 'error');
     } finally {
       setUpdating(null);
     }
@@ -69,8 +69,8 @@ export function Preferences() {
       setPreferences((prev) =>
         prev.map((p) => p.task_id === taskId ? { ...p, has_physical_limitation } : p)
       );
-    } catch (err: any) {
-      toast(err.message, 'error');
+    } catch (err) {
+      toast(err instanceof Error ? err.message : 'Ocorreu um erro.', 'error');
     } finally {
       setUpdating(null);
     }

@@ -20,8 +20,8 @@ export function Login() {
       const { data } = await loginApi(form.email, form.password);
       login(data.token, data.user);
       navigate('/houses');
-    } catch (err: any) {
-      toast(err.message, 'error');
+    } catch (err) {
+      toast(err instanceof Error ? err.message : 'Ocorreu um erro.', 'error');
     } finally {
       setLoading(false);
     }

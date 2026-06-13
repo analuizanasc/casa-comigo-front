@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import { useParams } from 'react-router-dom';
 import { getPerformanceReport, getBalanceReport, getMyPerformance } from '../../api/reports';
 import { useHouse } from '../../contexts/HouseContext';
@@ -86,7 +86,7 @@ export function Reports() {
   const [dateFrom, setDateFrom] = useState(thirtyAgo);
   const [dateTo, setDateTo] = useState(today);
 
-  const fetchData = async () => {
+  const fetchData = useCallback(async () => {
     if (!houseId) return;
     setLoading(true);
     try {
@@ -101,14 +101,14 @@ export function Reports() {
         const { data } = await getMyPerformance(houseId, { date_from: dateFrom, date_to: dateTo });
         setMyPerf(data);
       }
-    } catch (err: any) {
-      toast(err.message, 'error');
+    } catch (err) {
+      toast(err instanceof Error ? err.message : 'Ocorreu um erro.', 'error');
     } finally {
       setLoading(false);
     }
-  };
+  }, [houseId, isAdmin, dateFrom, dateTo, toast]);
 
-  useEffect(() => { fetchData(); }, [houseId, dateFrom, dateTo, isAdmin]);
+  useEffect(() => { fetchData(); }, [fetchData]);
 
   if (loading) return <PageSpinner />;
 
