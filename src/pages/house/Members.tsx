@@ -139,11 +139,11 @@ export function Members() {
             <h2 className="weights-panel__title">Distribuição de Carga</h2>
             <div className="weights-panel__meta">
               {weights.using_equal_distribution ? (
-                <Badge variant="info">Distribuição igualitária</Badge>
+                <Badge variant="pendente">Distribuição igualitária</Badge>
               ) : weights.is_valid ? (
-                <Badge variant="success">Pesos válidos — {weights.total_defined_weight}%</Badge>
+                <Badge variant="concluida">Pesos válidos — {weights.total_defined_weight}%</Badge>
               ) : (
-                <Badge variant="warning">Incompleto — {weights.total_defined_weight}% definido</Badge>
+                <Badge variant="impedida">Incompleto — {weights.total_defined_weight}% definido</Badge>
               )}
             </div>
           </div>
@@ -176,7 +176,7 @@ export function Members() {
               <div className="member-card__name">{member.name}</div>
               <div className="member-card__email">{member.email}</div>
               <div className="member-card__meta">
-                <Badge variant={member.role === 'admin' ? 'terracotta' : member.role === 'catalog_manager' ? 'sage' : 'default'}>
+                <Badge variant={member.role === 'admin' ? 'barro' : member.role === 'catalog_manager' ? 'leve' : 'default'}>
                   {roleLabel[member.role]}
                 </Badge>
                 {member.weight_percentage !== null && (
@@ -190,7 +190,7 @@ export function Members() {
             {isAdmin && (
               <div className="member-card__actions">
                 <Button variant="ghost" size="sm" onClick={() => openEdit(member)}>Editar</Button>
-                <Button variant="ghost" size="sm" onClick={() => handleRemove(member)} style={{ color: 'var(--danger)' }}>Remover</Button>
+                <Button variant="ghost" size="sm" onClick={() => handleRemove(member)} style={{ color: 'var(--vermelho)' }}>Remover</Button>
               </div>
             )}
           </div>

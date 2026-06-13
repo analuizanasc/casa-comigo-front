@@ -183,7 +183,7 @@ export function Houses() {
   const isLastStep = currentStep >= (onboarding?.total_steps ?? 4) - 1;
 
   return (
-    <div className="app-shell app-shell--no-sidebar">
+    <div>
       {showOnboarding && (
         <div className="onboarding-overlay">
           <div className="onboarding-modal">
@@ -214,9 +214,7 @@ export function Houses() {
       <div className="houses-page">
         <div className="houses-page__header">
           <div>
-            <h1 className="houses-page__title">
-              <span>🏠</span> Minhas Casas
-            </h1>
+            <h1 className="houses-page__title">Minhas Casas</h1>
             <p className="houses-page__subtitle">Selecione uma casa para continuar</p>
           </div>
           <div className="houses-page__actions">
@@ -235,7 +233,12 @@ export function Houses() {
             <div className="invitations-list">
               {invitations.map((inv) => (
                 <div key={inv.id} className="invitation-card">
-                  <div className="invitation-card__icon">✉</div>
+                  <div className="invitation-card__icon">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="square" strokeLinejoin="miter">
+                      <rect x="2" y="4" width="20" height="16" rx="1" />
+                      <path d="M2 4l10 9 10-9" />
+                    </svg>
+                  </div>
                   <div className="invitation-card__info">
                     <div className="invitation-card__house">{inv.house_name}</div>
                     <div className="invitation-card__from">Convidado por {inv.invited_by_name}</div>
@@ -277,7 +280,12 @@ export function Houses() {
                 className="house-card"
                 onClick={() => handleEnter(house)}
               >
-                <div className="house-card__icon">🏠</div>
+                <div className="house-card__icon">
+                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="square" strokeLinejoin="miter">
+                    <path d="M3 9.5L12 3l9 6.5V20a1 1 0 01-1 1H4a1 1 0 01-1-1V9.5z" />
+                    <path d="M9 21V12h6v9" />
+                  </svg>
+                </div>
                 <div className="house-card__info">
                   <div className="house-card__name">{house.name}</div>
                   <div className="house-card__role">{roleLabel[house.role]}</div>

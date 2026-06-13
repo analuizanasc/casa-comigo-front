@@ -33,7 +33,12 @@ export function Register() {
     <div className="auth-page">
       <div className="auth-card">
         <div className="auth-card__brand">
-          <span className="auth-card__logo">🏠</span>
+          <div className="auth-card__logo">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="square" strokeLinejoin="miter">
+              <path d="M3 9.5L12 3l9 6.5V20a1 1 0 01-1 1H4a1 1 0 01-1-1V9.5z" />
+              <path d="M9 21V12h6v9" />
+            </svg>
+          </div>
           <h1 className="auth-card__title">Casa Comigo</h1>
           <p className="auth-card__subtitle">Crie sua conta</p>
         </div>

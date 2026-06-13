@@ -7,10 +7,14 @@ interface InputProps extends InputHTMLAttributes<HTMLInputElement> {
 
 export function Input({ label, error, id, className = '', ...props }: InputProps) {
   return (
-    <div className="field">
-      {label && <label className="field__label" htmlFor={id}>{label}</label>}
-      <input id={id} className={`field__input ${error ? 'field__input--error' : ''} ${className}`} {...props} />
-      {error && <span className="field__error">{error}</span>}
+    <div className="campo-wrap">
+      {label && <label className="rotulo" htmlFor={id}>{label}</label>}
+      <input
+        id={id}
+        className={`campo ${error ? 'campo--erro' : ''} ${className}`.trim()}
+        {...props}
+      />
+      {error && <span className="campo-erro-msg">{error}</span>}
     </div>
   );
 }
@@ -23,14 +27,18 @@ interface SelectProps extends SelectHTMLAttributes<HTMLSelectElement> {
 
 export function Select({ label, error, id, options, className = '', ...props }: SelectProps) {
   return (
-    <div className="field">
-      {label && <label className="field__label" htmlFor={id}>{label}</label>}
-      <select id={id} className={`field__input field__select ${error ? 'field__input--error' : ''} ${className}`} {...props}>
+    <div className="campo-wrap">
+      {label && <label className="rotulo" htmlFor={id}>{label}</label>}
+      <select
+        id={id}
+        className={`campo ${error ? 'campo--erro' : ''} ${className}`.trim()}
+        {...props}
+      >
         {options.map((o) => (
           <option key={o.value} value={o.value}>{o.label}</option>
         ))}
       </select>
-      {error && <span className="field__error">{error}</span>}
+      {error && <span className="campo-erro-msg">{error}</span>}
     </div>
   );
 }
@@ -42,10 +50,14 @@ interface TextareaProps extends TextareaHTMLAttributes<HTMLTextAreaElement> {
 
 export function Textarea({ label, error, id, className = '', ...props }: TextareaProps) {
   return (
-    <div className="field">
-      {label && <label className="field__label" htmlFor={id}>{label}</label>}
-      <textarea id={id} className={`field__input field__textarea ${error ? 'field__input--error' : ''} ${className}`} {...props} />
-      {error && <span className="field__error">{error}</span>}
+    <div className="campo-wrap">
+      {label && <label className="rotulo" htmlFor={id}>{label}</label>}
+      <textarea
+        id={id}
+        className={`campo ${error ? 'campo--erro' : ''} ${className}`.trim()}
+        {...props}
+      />
+      {error && <span className="campo-erro-msg">{error}</span>}
     </div>
   );
 }

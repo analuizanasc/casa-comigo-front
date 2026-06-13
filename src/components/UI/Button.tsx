@@ -7,6 +7,13 @@ interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
   children: ReactNode;
 }
 
+const variantClass: Record<string, string> = {
+  primary: 'btn--barro',
+  secondary: '',
+  ghost: 'btn--ghost',
+  danger: 'btn--perigo',
+};
+
 export function Button({
   variant = 'primary',
   size = 'md',
@@ -18,7 +25,7 @@ export function Button({
 }: ButtonProps) {
   return (
     <button
-      className={`btn btn--${variant} btn--${size} ${loading ? 'btn--loading' : ''} ${className}`}
+      className={`btn ${variantClass[variant] ?? ''} btn--${size} ${loading ? 'btn--loading' : ''} ${className}`.trim().replace(/\s+/g, ' ')}
       disabled={disabled || loading}
       {...props}
     >

@@ -1,4 +1,20 @@
-type BadgeVariant = 'default' | 'success' | 'warning' | 'danger' | 'info' | 'sage' | 'terracotta';
+type BadgeVariant =
+  | 'leve' | 'medio' | 'pesado'
+  | 'pendente' | 'concluida' | 'atrasada' | 'impedida'
+  | 'barro' | 'indigo' | 'default';
+
+const variantClass: Record<BadgeVariant, string> = {
+  leve:      'selo selo--leve',
+  medio:     'selo selo--medio',
+  pesado:    'selo selo--pesado',
+  pendente:  'status status--pendente',
+  concluida: 'status status--concluida',
+  atrasada:  'status status--atrasada',
+  impedida:  'status status--impedida',
+  barro:     'selo selo--barro',
+  indigo:    'selo selo--indigo',
+  default:   'papel-pill',
+};
 
 interface BadgeProps {
   children: React.ReactNode;
@@ -6,7 +22,7 @@ interface BadgeProps {
 }
 
 export function Badge({ children, variant = 'default' }: BadgeProps) {
-  return <span className={`badge badge--${variant}`}>{children}</span>;
+  return <span className={variantClass[variant]}>{children}</span>;
 }
 
 export const effortLabel: Record<string, string> = {
@@ -16,9 +32,9 @@ export const effortLabel: Record<string, string> = {
 };
 
 export const effortVariant: Record<string, BadgeVariant> = {
-  light: 'sage',
-  medium: 'warning',
-  heavy: 'danger',
+  light: 'leve',
+  medium: 'medio',
+  heavy: 'pesado',
 };
 
 export const frequencyLabel: Record<string, string> = {
@@ -38,10 +54,10 @@ export const statusLabel: Record<string, string> = {
 };
 
 export const statusVariant: Record<string, BadgeVariant> = {
-  pending: 'info',
-  completed: 'success',
-  overdue: 'danger',
-  redistributed: 'warning',
+  pending: 'pendente',
+  completed: 'concluida',
+  overdue: 'atrasada',
+  redistributed: 'impedida',
 };
 
 export const roleLabel: Record<string, string> = {
@@ -57,7 +73,7 @@ export const preferenceLabel: Record<string, string> = {
 };
 
 export const preferenceVariant: Record<string, BadgeVariant> = {
-  hate: 'danger',
+  hate: 'atrasada',
   neutral: 'default',
-  like: 'success',
+  like: 'concluida',
 };

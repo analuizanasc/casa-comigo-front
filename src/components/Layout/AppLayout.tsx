@@ -10,9 +10,9 @@ export function AppLayout() {
   }
 
   return (
-    <div className="app-shell">
+    <div className="app">
       <Sidebar />
-      <main className="app-content">
+      <main className="conteudo">
         <Outlet />
       </main>
     </div>

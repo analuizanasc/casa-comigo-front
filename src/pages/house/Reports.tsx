@@ -15,7 +15,7 @@ function CompletionRing({ rate }: { rate: number }) {
   const color = rate >= 80 ? '#4A7C59' : rate >= 50 ? '#C09030' : '#B54848';
   return (
     <svg width="52" height="52" viewBox="0 0 52 52" className="ring">
-      <circle cx="26" cy="26" r={r} fill="none" stroke="var(--border)" strokeWidth="4" />
+      <circle cx="26" cy="26" r={r} fill="none" stroke="var(--papel-fundo)" strokeWidth="4" />
       <circle
         cx="26"
         cy="26"
@@ -150,7 +150,7 @@ export function Reports() {
               {' '}— Tolerância: ±{balance.tolerance_percentage}pp
             </span>
             {balance.using_equal_distribution && (
-              <Badge variant="info">Distribuição igualitária</Badge>
+              <Badge variant="pendente">Distribuição igualitária</Badge>
             )}
           </div>
           <div className="balance-grid">

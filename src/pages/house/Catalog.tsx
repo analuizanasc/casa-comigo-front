@@ -265,7 +265,7 @@ export function Catalog() {
                   Dependências
                 </Button>
                 <Button variant="ghost" size="sm" onClick={() => openEdit(task)}>Editar</Button>
-                <Button variant="ghost" size="sm" onClick={() => handleDelete(task)} style={{ color: 'var(--danger)' }}>
+                <Button variant="ghost" size="sm" onClick={() => handleDelete(task)} style={{ color: 'var(--vermelho)' }}>
                   Remover
                 </Button>
               </div>
@@ -405,7 +405,7 @@ export function Catalog() {
                       variant="ghost"
                       size="sm"
                       onClick={() => handleRemoveDep(d.depends_on_task_id)}
-                      style={{ color: 'var(--danger)' }}
+                      style={{ color: 'var(--vermelho)' }}
                     >
                       Remover
                     </Button>
