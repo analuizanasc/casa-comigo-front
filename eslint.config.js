@@ -33,4 +33,11 @@ export default tseslint.config(
       '@typescript-eslint/no-unused-vars': 'off',
     },
   },
+  {
+    // Specs e config do Playwright rodam em Node, não no browser.
+    files: ['e2e-tests/**/*.ts', 'playwright.config.ts'],
+    languageOptions: {
+      globals: globals.node,
+    },
+  },
 )
